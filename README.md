@@ -184,13 +184,13 @@
 classDiagram
 
     class User {
-    +int id
-    +string username
-    +string password
-    +string email
-    +string role
-    +login()
-    +register()
+        +int id
+        +string username
+        +string password
+        +string email
+        +string role
+        +login()
+        +register()
     }
 
     class Product {
