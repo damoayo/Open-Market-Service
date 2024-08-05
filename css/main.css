@@ -80,6 +80,7 @@ nav ul li:nth-child(1) {
   align-items: center;
   margin-right: 26px;
 }
+
 nav ul li:nth-child(2) {
   align-items: center;
   margin-right: 0;
@@ -143,10 +144,91 @@ main {
 
 /* 푸터 스타일 */
 footer {
-  background-color: #999;
-  color: #fff;
-  text-align: center;
-  padding: 20px 0;
-  position: relative;
-  width: 100%;
+  width: 1920px;
+  height: 298px;
+  background: rgba(242, 242, 242, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-container {
+  width: 1280px;
+  height: 298px;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.wrap {
+  height: 108px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(196, 196, 196, 1);
+}
+
+.footer-nav {
+  flex: 2;
+  width: 632px;
+  height: 18px;
+  margin-top: 60px;
+}
+
+.footer-nav a {
+  color: #333;
+  opacity: 0.8;
+  text-decoration: none;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17.53px;
+  text-align: left;
+}
+
+.footer-nav a:hover {
+  opacity: 1;
+}
+.footer-nav a span {
+  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 17.53px;
+  text-align: left;
+}
+
+.footer-info {
+  width: 321px;
+  height: 96px;
+  margin-bottom: 63px;
+  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+  color: rgba(118, 118, 118, 1);
+}
+
+.footer-info span {
+  font-size: 16px;
+  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: left;
+  color: rgba(118, 118, 118, 1);
+}
+
+.footer-social {
+  justify-content: end;
+  width: 124px;
+  height: 32px;
+  flex: 1;
+  display: flex;
+  margin: 54px 0;
+}
+
+.footer-social a img {
+  margin-left: 14px;
+  width: 32px;
+  height: 32px;
 }
