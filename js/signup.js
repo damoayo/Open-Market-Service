@@ -19,5 +19,4 @@ function openTab(tabName) {
     wrapForm[0].style.height = '820px';
   }
 }
-
 openTab('buyer');
