@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/signup.css" />
+    <title>회원가입</title>
+  </head>
+  <body>
+    <section>
+      <header>
+        <h1 class="sr-only">회원가입</h1>
+        <img src="./assets/Logo-hodu.png" alt="HODU 오픈마켓 서비스 로고" />
+      </header>
+      <container>
+        <div id="buyer" class="user-container">
+          <div class="tabs">
+            <div class="tabLeft active" onclick="openTab('buyer')">구매회원가입</div>
+            <div class="tabRight" onclick="openTab('seller')">판매회원가입</div>
+          </div>
+          <div class="wrap-form">
+            <form action="">
+              <div class="id-group">
+                <label for="user-id">아이디</label>
+                <div id="input-group">
+                  <input type="text" id="user-id" name="user-id" />
+                  <button id="duplicate-check-button">중복확인</button>
+                </div>
+              </div>
+              <div class="pw-group">
+                <label for="user-id">비밀번호</label>
+                <div id="input-group">
+                  <input type="text" id="user-pw" name="user-pw" />
+                </div>
+              </div>
+              <div class="repw-group">
+                <label for="user-id">비밀번호 재확인</label>
+                <div id="input-group">
+                  <input type="text" id="user-repw" name="user-repw" />
+                </div>
+              </div>
+              <div class="name-group">
+                <label for="user-name">이름</label>
+                <div id="input-group">
+                  <input type="text" id="user-name" name="user-name" />
+                </div>
+              </div>
+              <div class="tel-group">
+                <label for="user-tel">휴대폰번호</label>
+                <div class="tel-input-group">
+                  <select id="phone-prefix" name="phone-prefix">
+                    <option value="010">010</option>
+                    <option value="011">011</option>
+                    <option value="016">016</option>
+                    <option value="017">017</option>
+                    <option value="018">018</option>
+                    <option value="019">019</option>
+                  </select>
+                  <input type="text" id="user-tel1" name="user-tel1" />
+                  <input type="text" id="user-tel2" name="user-tel2" />
+                </div>
+              </div>
+              <!-- ### 판매회원가입 부분 ### -->
+              <div id="add-Business" class="busiNum-group">
+                <label for="user-id">사업자 등록번호</label>
+                <div id="input-group">
+                  <input type="text" id="user-id" name="user-id" />
+                  <button id="duplicate-check-button">인증</button>
+                </div>
+              </div>
+              <div id="add-storeName" class="storeName-group">
+                <label for="user-name">스토어 이름</label>
+                <div id="input-group">
+                  <input type="text" id="user-name" name="user-name" />
+                </div>
+              </div>
+            </form>
+          </div>
+          <footer id="login-footer">
+            <div class="login-chk">
+              <label>
+                <input type="checkbox" />
+                <p>
+                  호두샵의 <span>이용약관</span> 및 <span>개인정보처리방침</span>에 대한 내용을 확인하였고 동의합니다.
+                </p>
+              </label>
+            </div>
+            <button type="submit" class="login-btn">가입하기</button>
+          </footer>
+        </div>
+      </container>
+    </section>
+    <script src="./js/signup.js"></script>
+  </body>
+</html>
