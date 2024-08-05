@@ -11,22 +11,26 @@
     <section>
       <header>
         <h1 class="sr-only">로그인</h1>
-        <img src="./assets/Logo-hodu.png" alt="HODU 오픈마켓 서비스 로고" />
+        <a href="/"><img src="./assets/Logo-hodu.png" alt="HODU 오픈마켓 서비스 로고" /></a>
       </header>
       <container>
-        <div class="tabs">
-          <div class="tabLeft">구매회원 로그인</div>
-          <div class="tabRight active">판매회원 로그인</div>
+        <div class="wrap-form">
+          <form action="#">
+            <div class="tabs">
+              <div class="tabLeft active" onclick="openTab('buyer')">구매회원 로그인</div>
+              <div class="tabRight" onclick="openTab('seller')">판매회원 로그인</div>
+            </div>
+            <div class="form-container">
+              <input type="text" placeholder="아이디" id="sellerId" />
+              <input type="password" placeholder="비밀번호" />
+              <button type="submit" class="login-btn">로그인</button>
+            </div>
+          </form>
         </div>
-        <div class="form-container">
-          <input type="text" placeholder="아이디" />
-          <input type="password" placeholder="비밀번호" />
-          <button type="submit" class="login-btn">로그인</button>
-        </div>
+        <footer class="login-footer">
+          <a href="./signup.html">회원가입</a>&nbsp | &nbsp <a href="#none">비밀번호 찾기</a>
+        </footer>
       </container>
-      <footer class="login-footer">
-        <a href="./signup.html">회원가입</a>&nbsp | &nbsp <a href="#none">비밀번호 찾기</a>
-      </footer>
     </section>
     <script src="./js/login.js"></script>
   </body>

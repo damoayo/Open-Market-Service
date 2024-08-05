@@ -1,12 +1,19 @@
-const $tabLeft = document.querySelector('.tabLeft');
-const $tabRight = document.querySelector('.tabRight');
+function openTab(tabName) {
+  console.log(tabName);
+  // const addBusiness = document.getElementById('add-Business');
+  // const addStoreName = document.getElementById('add-storeName');
+  const tabLeft = document.querySelector('.tabLeft');
+  const tabRight = document.querySelector('.tabRight');
+  const sellerId = document.getElementById('sellerId');
 
-$tabLeft.addEventListener('click', () => {
-  $tabLeft.classList.add('active');
-  $tabRight.classList.remove('active');
-});
-$tabRight.addEventListener('click', () => {
-  $tabRight.classList.add('active');
-  $tabLeft.classList.remove('active');
-});
-console.log('login.js');
+  if (tabName === 'buyer') {
+    tabLeft.classList.add('active');
+    tabRight.classList.remove('active');
+    sellerId.placeholder = '구매회원 ID';
+  } else if (tabName === 'seller') {
+    tabRight.classList.add('active');
+    tabLeft.classList.remove('active');
+    sellerId.placeholder = '판매회원 ID';
+  }
+}
+openTab('buyer');
