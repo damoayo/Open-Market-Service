@@ -113,7 +113,7 @@ container {
   cursor: pointer;
   font-family: 'Spoqa Han Sans Neo', sans-serif;
   line-height: 22px;
-  background-color: rgba(196, 196, 196, 1);
+  background-color: rgba(242, 242, 242, 1);
 }
 .tabRight {
   flex: 1;
@@ -128,11 +128,11 @@ container {
   cursor: pointer;
   font-family: 'Spoqa Han Sans Neo', sans-serif;
   line-height: 22px;
-  background-color:rgba(196, 196, 196, 1);;
+  background-color: rgba(242, 242, 242, 1);
 }
 
 .tabRight.active {
-  background: #fff
+  background: #fff;
 }
 .tabLeft.active {
   background: #fff;
@@ -166,4 +166,14 @@ container {
   line-height: 20.03px;
   text-align: left;
   color: rgba(51, 51, 51, 1);
+}
+#errMessage {
+  height: 20px;
+  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: left;
+  color: rgba(235, 87, 87, 1);
+  margin: 5px 0 0 35px;
+  
 }

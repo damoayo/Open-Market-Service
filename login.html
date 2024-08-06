@@ -15,14 +15,15 @@
       </header>
       <container>
         <div class="wrap-form">
-          <form action="#">
+          <form id="loginForm">
             <div class="tabs">
               <div class="tabLeft active" onclick="openTab('buyer')">구매회원 로그인</div>
               <div class="tabRight" onclick="openTab('seller')">판매회원 로그인</div>
             </div>
             <div class="form-container">
-              <input type="text" placeholder="아이디" id="sellerId" />
-              <input type="password" placeholder="비밀번호" />
+              <input type="text" placeholder="아이디" required id="buyerId" />
+              <input type="password" placeholder="비밀번호" required id="buyerPw" />
+              <span id="errMessage"></span>
               <button type="submit" class="login-btn">로그인</button>
             </div>
           </form>
