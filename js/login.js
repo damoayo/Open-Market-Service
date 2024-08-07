@@ -1,28 +1,20 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // 페이지 로드 시 로그인 상태 확인
-  checkLoginStatus();
-});
 function checkLoginStatus() {
   // 예시로 로컬 스토리지를 사용하여 로그인 상태 관리
   const isLoggedIn = localStorage.getItem('isLoggedIn');
 
   if (isLoggedIn === 'true') {
-    updateNavToLoggedInState();
+    window.history.back();
   }
 }
+// 페이지 로드 시 로그인 상태 확인
+document.addEventListener('DOMContentLoaded', () => {
+  checkLoginStatus();
+});
 
-function updateNavToLoggedInState() {
-  const $navList = document.getElementById('navList');
-  if ($navList) {
-    $navList.textContent = '마이페이지';
-    $navList.href = '/mypage';
-    $navList.id = 'mypageLink';
-  }
-}
 
-// 현재 선택된 로그인 타입을 저장할 변수
+
+// 구매회원, 판매회원 판별
 let currentLoginType = 'BUYER';
-
 function openTab(tabName) {
   if (tabName === 'buyer') {
     currentLoginType = 'BUYER';
@@ -35,6 +27,7 @@ function openTab(tabName) {
   const $tabRight = document.querySelector('.tabRight');
   // const $sellerId = document.getElementById('sellerId');
 
+  // 탭선택에 따른 칼라변경
   if (tabName === 'buyer') {
     $tabLeft.classList.add('active');
     $tabRight.classList.remove('active');
@@ -45,6 +38,7 @@ function openTab(tabName) {
 }
 openTab('buyer');
 
+// 로그인 요청
 async function login(id, pw, login_type) {
   try {
     const res = await fetch('https://openmarket.weniv.co.kr/accounts/login/', {
@@ -66,9 +60,9 @@ async function login(id, pw, login_type) {
       if (res.ok) {
         // console.log('로그인 성공:', data);
 
-        // 로그인 성공 후 상태 저장 (예시로 로컬 스토리지 사용)
+        // 로그인 성공 후 상태 저장
         localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('token', data.token); // 예시로 토큰 저장
+        localStorage.setItem('token', data.token); 
 
         // 로그인 성공 시 이전 페이지로 이동
         window.history.back();
