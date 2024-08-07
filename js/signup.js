@@ -10,6 +10,15 @@ function checkLoginStatus() {
 }
 // 페이지 로드 시 로그인 상태 확인
 document.addEventListener('DOMContentLoaded', () => {
+  const agreeChk = document.getElementById('agreeChk');
+  agreeChk.checked = true;
+  isAgreeChecked = agreeChk.checked;
+  // console.log('isAgreeChecked', isAgreeChecked);
+
+  // 체크박스 상태 변경 시 변수 업데이트
+  agreeChk.addEventListener('change', () => {
+    isAgreeChecked = agreeChk.checked;
+  });
   checkLoginStatus();
 });
 
@@ -164,6 +173,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
   confirmPassword.addEventListener('input', validateConfirmPassword);
 });
 
+// ########################################################
+
 // 로그인 요청
 async function login(id, pw, pw2, cellphone, name) {
   try {
@@ -196,7 +207,7 @@ async function login(id, pw, pw2, cellphone, name) {
         window.history.back();
       } else {
         console.error('로그인 실패:', data);
-        document.getElementById('errMessage').textContent = '로그인에 실패했습니다. 아이디와 비밀번호를 확인하세요.';
+        document.getElementById('pwChkMessage').textContent = '로그인에 실패했습니다. 아이디와 비밀번호를 확인하세요.';
 
         // 비밀번호 입력창에 포커스하고, 입력값 비움
         const $pwInput = document.getElementById('buyerPw');
@@ -205,29 +216,25 @@ async function login(id, pw, pw2, cellphone, name) {
       }
     } else {
       console.error('서버 응답이 JSON 형식이 아님');
-      document.getElementById('errMessage').textContent = '서버 오류가 발생했습니다. 다시 시도해주세요.';
+      document.getElementById('pwChkMessage').textContent = '서버 오류가 발생했습니다. 다시 시도해주세요.';
     }
   } catch (error) {
     console.error('로그인 요청 중 오류 발생:', error);
-    document.getElementById('errMessage').textContent = '로그인 중 오류가 발생했습니다. 다시 시도해주세요.';
-    console.log(document.getElementById('errMessage'));
+    document.getElementById('pwChkMessage').textContent = '로그인 중 오류가 발생했습니다. 다시 시도해주세요.';
+    console.log(document.getElementById('pwChkMessage'));
   }
 }
+
+// ########################################################
 
 // 폼 제출 이벤트 핸들러
 const $loginForm = document.getElementById('loginForm');
 $loginForm.addEventListener('submit', function (event) {
   event.preventDefault(); // 폼 기본 제출기능 제한
 
-  /* const errMessageElement = document.getElementById('pwChkMessage');
-  const errMessage = errMessageElement.textContent.trim(); */
-
-  // 에러 메시지가 있으면 폼 제출 중단
- /*  if (errMessage !== '') {
-    console.error('로그인 요청이 중단되었습니다: 에러 메시지가 존재합니다.');
-    errMessageElement.textContent = '로그인 요청이 중단되었습니다: 에러 메시지가 존재합니다.';
-    return;
-  } */
+  // 체크박스 체크여부 확인
+  const $agree = document.getElementById('agreeChk');
+  $agree.checked = true;
 
   // 사용자 입력 값 가져오기
   const $idInput = document.getElementById('userId').value;
@@ -239,9 +246,12 @@ $loginForm.addEventListener('submit', function (event) {
   const $phone2 = document.getElementById('userTel2').value;
   const $cellphone = `${$phonePrefix}${$phone1}${$phone2}`;
 
-  // 입력 값 검증
+  // 입력 값 검증 및 체크박스 확인
   if (!$idInput || !$pwInput || !$repwInput || !$cellphone || !$userName) {
     pwChkMessage.textContent = '모든 항목을 필수로 작성해야 합니다.';
+    return;
+  } else if (!isAgreeChecked) {
+    pwChkMessage.textContent = '약관에 동의해야 가입할 수 있습니다.';
     return;
   }
 
@@ -253,7 +263,6 @@ $loginForm.addEventListener('submit', function (event) {
   const name = $userName.trim();
 
   const arr = [id, pw, pw2, cellphone, name];
-  console.log('cellphone', cellphone);
 
   arr.forEach((item) => {
     if (!item) {
@@ -266,11 +275,12 @@ $loginForm.addEventListener('submit', function (event) {
   const login_type = currentLoginType;
 
   // 판매회원가입시 추가항목은 기재에서 제외
+
   if (login_type === 'SELLER') {
     const $businessUserId = document.getElementById('businessUserId');
     const $storName = document.getElementById('storeName');
-    $businessUserId.setAttribute('required');
-    $storName.setAttribute('required');
+    $storName.setAttribute('required', 'required');
+    $businessUserId.setAttribute('required', 'required');
   }
 
   login(id, pw, pw2, cellphone, name);

@@ -167,8 +167,14 @@ container {
 #userPw {
   background: url(../assets/icon-check-off.svg) no-repeat center right 13px;
 }
+#userPw.valid-bg {
+  background: url(../assets/icon-check-on.svg) no-repeat center right 13px;
+}
 #userRepw {
   background: url(../assets/icon-check-off.svg) no-repeat center right 13px;
+}
+#userRepw.valid-bg {
+  background: url(../assets/icon-check-on.svg) no-repeat center right 13px;
 }
 
 #duplicateChkButton {
