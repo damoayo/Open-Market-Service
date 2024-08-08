@@ -283,7 +283,8 @@ footer {
   border-width: 0 10px 10px 10px;
   border-style: solid;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  border-color: transparent transparent white transparent;
+  border-color: transparent transparent white 
+  transparent;
 }
 .dropdown-box a {
   display: block;
@@ -293,67 +294,4 @@ footer {
 }
 .dropdown-box a:hover {
   color: rgba(0, 0, 0, 1);
-}
-
-/* 제품박스 */
-
-#productList {
-  margin: 80px 0;
-}
-
-.container {
-  width: 380px;
-  height: 490px;
-  border-radius: 10px 0 0 0;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 1);
-}
-
-.container img {
-  width: 380px;
-  height: 380px;
-  object-fit: cover;
-  border-radius: 10px;
-  border: 1px;
-}
-
-.product-store {
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 22px;
-  text-align: left;
-  margin-top: 16px;
-  color: rgba(118, 118, 118, 1);
-}
-
-.product-name {
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 22px;
-  text-align: left;
-  margin-top: 10px;
-  color: rgba(0, 0, 0, 1);
-}
-
-.product-price {
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 30.05px;
-  text-align: left;
-}
-.currency {
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 20.03px;
-  text-align: left;
-}
-.article {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 70px;
 }

@@ -13,8 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   checkLoginStatus();
 });
 
-/* ##############  icon 함수  ############### */
-
+/* ########################################### */
 // 로그인-클릭 icon 함수
 function changeColor(element) {
   const text = document.getElementById(element.id);
@@ -40,11 +39,11 @@ function changeColor(element) {
   text.style.width = '56px';
   text.style.height = '14px';
 }
-// 로그인 icon 함수
+// 로그인 상태 icon 함수
 function reChangeColor(element) {
   const text = document.getElementById(element.id);
   const img = text.getElementsByTagName('img')[0];
-  // console.log(img);
+  console.log(img);
   if (element.id === 'loginBtn') {
     img.src = './assets/icon-user.svg';
     img.style.paddingLeft = '12px';
@@ -66,7 +65,7 @@ function reChangeColor(element) {
 function logoutIconColor(element) {
   const text = document.getElementById(element.id);
   const img = text.getElementsByTagName('img')[0];
-  // console.log(img);
+  console.log(img);
   if (element.id === 'loginBtn') {
     img.src = './assets/icon-user.svg';
     img.style.paddingLeft = '2px';
@@ -85,7 +84,7 @@ function logoutIconColor(element) {
   text.style.height = '14px';
 }
 
-/* ########### Mypage icon 렌더링 ############## */
+/* ############################################ */
 
 // 로그인 상태일 때 네비게이션 업데이트
 function updateNavLogin() {
@@ -94,7 +93,7 @@ function updateNavLogin() {
   const dropdownMenu = document.getElementById('dropdownMenu');
   const logoutBtn = document.getElementById('logoutBtn');
   const loginImg = loginLink.querySelector('img');
-
+  
   // 로그인 버튼을 마이페이지로 변경
   loginLink.innerHTML = '<img src="./assets/icon-user.svg" alt="마이페이지" /> 마이페이지';
   reChangeColor(loginLink);
@@ -107,13 +106,13 @@ function updateNavLogin() {
     // 드롭다운 박스의 표시 상태를 토글
     dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
   });
-
+  
   // 이미지 클릭 시에도 버튼과 같은효과
   loginImg.addEventListener('click', (event) => {
     event.preventDefault(); // 기본 링크 동작을 막음
     loginLink.click();
   });
-
+  
   // 외부 클릭 시 드롭다운 박스 닫기
   window.addEventListener('click', (event) => {
     if (!event.target.closest('#loginBtn')) {
@@ -124,7 +123,7 @@ function updateNavLogin() {
       }
     }
   });
-
+  
   // 드롭다운 박스 클릭 시 이벤트 버블링 방지
   // 내부 클릭 시에도 드롭다운 박스가 닫히지 않도록 정상동작 보장
   dropdownMenu.addEventListener('click', (event) => {
@@ -144,7 +143,7 @@ function updateNavLogin() {
 function updateNavLogout() {
   const loginLink = document.getElementById('loginBtn');
   const cartLink = document.getElementById('cartBtn');
-
+  
   loginLink.innerHTML = '<img src="./assets/icon-user.svg" alt="로그인" /> 로그인';
   logoutIconColor(loginLink);
   logoutIconColor(cartLink);
@@ -155,16 +154,23 @@ function updateNavLogout() {
   });
 }
 
-/* ################ 상품목록 ################ */
+/* ############################################ */
 
-// 상품목록 가져오기
-async function productsList() {
+// 로그인 요청
+async function login(id, pw, pw2, cellphone, name) {
   try {
-    const res = await fetch('https://openmarket.weniv.co.kr/products/', {
-      method: 'GET',
+    const res = await fetch('https://openmarket.weniv.co.kr/accounts/signup/', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        username: id,
+        password: pw,
+        password2: pw2,
+        phone_number: cellphone,
+        name: name,
+      }),
       credentials: 'include', // CORS를 지원할 경우 쿠키 포함
     });
 
@@ -172,81 +178,96 @@ async function productsList() {
     if (res.headers.get('content-type')?.includes('application/json')) {
       const data = await res.json();
       if (res.ok) {
-        // 성공적으로 제품 목록을 받아온 경우
-        // console.log('제품 목록:', data);
+        // console.log('로그인 성공:', data);
 
-        // 제품 목록을 화면에 표시 (예시)
-        displayProducts(data.results);
-        console.log(data.results);
+        // 로그인 성공 후 상태 저장 (예시로 로컬 스토리지 사용)
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('token', data.token); // 예시로 토큰 저장
+
+        // 로그인 성공 시 이전 페이지로 이동
+        window.history.back();
       } else {
-        // 요청 실패 시
-        console.error('제품 목록 요청 실패:', data);
-        document.getElementById('productMessage').textContent =
-          '제품 목록을 불러오는데 실패했습니다. 다시 시도해주세요.';
+        // console.error('로그인 실패:', data);
+        document.getElementById('pwChkMessage').textContent = '로그인에 실패했습니다. 아이디와 비밀번호를 확인하세요.';
+
+        // 비밀번호 입력창에 포커스하고, 입력값 비움
+        const $pwInput = document.getElementById('buyerPw');
+        $pwInput.value = '';
+        $pwInput.focus();
       }
     } else {
       console.error('서버 응답이 JSON 형식이 아님');
-      document.getElementById('productMessage').textContent = '서버 오류가 발생했습니다. 다시 시도해주세요.';
+      document.getElementById('pwChkMessage').textContent = '서버 오류가 발생했습니다. 다시 시도해주세요.';
     }
   } catch (error) {
-    console.error('제품 목록 요청 중 오류 발생:', error);
-    document.getElementById('productMessage').textContent = '제품 목록 요청 중 오류가 발생했습니다. 다시 시도해주세요.';
+    console.error('로그인 요청 중 오류 발생:', error);
+    document.getElementById('pwChkMessage').textContent = '로그인 중 오류가 발생했습니다. 다시 시도해주세요.';
   }
 }
 
-// 상품 목록을 화면에 렌더링
-function displayProducts(products) {
-  const productList = document.getElementById('productList');
-  productList.innerHTML = ''; // 기존 목록 초기화
+// ########################################################
 
-  if (products.length === 0) {
-    productList.textContent = '등록된 제품이 없습니다.';
-  } else {
-    let article = document.createElement('article');
-    article.className = 'article';
+// 폼 제출 이벤트 핸들러
+const $productsForm = document.getElementById('loginForm');
+$loginForm.addEventListener('submit', function (event) {
+  event.preventDefault(); // 폼 기본 제출기능 제한
 
-    products.forEach((product, index) => {
-      const container = document.createElement('div');
-      container.className = 'container';
+  // 체크박스 체크여부 확인
+  const $agree = document.getElementById('agreeChk');
+  $agree.checked = true;
 
-      const image = document.createElement('img');
-      image.src = product.image;
-      image.alt = product.product_name;
+  // 사용자 입력 값 가져오기
+  const $idInput = document.getElementById('userId').value;
+  const $pwInput = document.getElementById('userPw').value;
+  const $repwInput = document.getElementById('userRepw').value;
+  const $userName = document.getElementById('userName').value;
+  const $phonePrefix = document.getElementById('phone-prefix').value;
+  const $phone1 = document.getElementById('userTel1').value;
+  const $phone2 = document.getElementById('userTel2').value;
+  const $cellphone = `${$phonePrefix}${$phone1}${$phone2}`;
 
-      const productMeta = document.createElement('div');
-      productMeta.className = 'product-meta';
-
-      const productStore = document.createElement('p');
-      productStore.className = 'product-store';
-      productStore.textContent = product.store_name;
-
-      const productName = document.createElement('h3');
-      productName.className = 'product-name';
-      productName.textContent = product.product_name;
-
-      const productPrice = document.createElement('p');
-      productPrice.className = 'product-price';
-      productPrice.innerHTML = `${product.price.toLocaleString()}<span class="currency">원</span>`;
-      // 가격의 ,쉼표를 위해 toLocaleString() 사용
-
-      productMeta.appendChild(productStore);
-      productMeta.appendChild(productName);
-      productMeta.appendChild(productPrice);
-
-      container.appendChild(image);
-      container.appendChild(productMeta);
-
-      article.appendChild(container);
-
-      // 3개의 container를 article에 추가하고 article을 productList에 추가
-      if ((index + 1) % 3 === 0 || index === products.length - 1) {
-        productList.appendChild(article);
-        article = document.createElement('article');
-        article.className = 'article';
-      }
-    });
+  // 입력 값 검증 및 체크박스 확인
+  if (!$idInput || !$pwInput || !$repwInput || !$cellphone || !$userName) {
+    pwChkMessage.textContent = '모든 항목을 필수로 작성해야 합니다.';
+    return;
+  } else if (!isAgreeChecked) {
+    pwChkMessage.textContent = '약관에 동의해야 가입할 수 있습니다.';
+    return;
   }
-}
 
-// 페이지가 로드시 제품 목록 요청
-document.addEventListener('DOMContentLoaded', productsList);
+  // 입력이 모두 있는지 확인
+  const id = $idInput.trim(); // $idInput.value.trim()로 하면 안됌.
+  const pw = $pwInput.trim();
+  const pw2 = $repwInput.trim();
+  const cellphone = $cellphone.trim();
+  const name = $userName.trim();
+
+  const arr = [id, pw, pw2, cellphone, name];
+
+  arr.forEach((item) => {
+    if (!item) {
+      errMessageElement.textContent = '모든 항목을 필수로 작성해야 합니다.';
+      return;
+    }
+  });
+
+  // 로그인 타입확인
+  const login_type = currentLoginType;
+
+  // 판매회원가입시 추가항목은 기재에서 제외
+
+  if (login_type === 'SELLER') {
+    const $businessUserId = document.getElementById('businessUserId');
+    const $storName = document.getElementById('storeName');
+    $storName.setAttribute('required', 'required');
+    $businessUserId.setAttribute('required', 'required');
+  }
+
+  login(id, pw, pw2, cellphone, name);
+});
+
+
+
+
+
+
