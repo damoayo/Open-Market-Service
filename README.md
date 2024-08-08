@@ -1,4 +1,5 @@
-- 일정관리 **ReadMind** 자세히 보기 URL: `https://redmine.perple.co.kr:10444/redmine/projects/open-market-service/issues`
+[일정관리 **ReadMind**][참조 링크]
+[참조 링크]: https://redmine.perple.co.kr:10444/redmine/projects/open-market-service/issues
 
 # 오픈마켓 프로젝트
 
