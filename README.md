@@ -1,3 +1,5 @@
+- 일정관리 **ReadMind** 자세히 보기 URL: `https://redmine.perple.co.kr:10444/redmine/projects/open-market-service/issues`
+
 # 오픈마켓 프로젝트
 
 ## 프로젝트 개요
@@ -10,6 +12,7 @@
 - **백엔드 API**: RESTful API (모델링을 위한 가상 API 또는 Mock 서버)
 - **빌드 및 배포**: Git, Live Server (VSCode)
 - **ReadMind** 일정관리와 프로젝트관리 및 버그관리 시스템
+- 자세히 보기 URL: `https://redmine.perple.co.kr:10444/redmine/projects/open-market-service/issues`
   ![alt text](image.png)
 
 ## 주요 기능 및 서비스
