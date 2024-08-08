@@ -206,7 +206,7 @@ async function login(id, pw, pw2, cellphone, name) {
         // 로그인 성공 시 이전 페이지로 이동
         window.history.back();
       } else {
-        console.error('로그인 실패:', data);
+        // console.error('로그인 실패:', data);
         document.getElementById('pwChkMessage').textContent = '로그인에 실패했습니다. 아이디와 비밀번호를 확인하세요.';
 
         // 비밀번호 입력창에 포커스하고, 입력값 비움
@@ -221,7 +221,6 @@ async function login(id, pw, pw2, cellphone, name) {
   } catch (error) {
     console.error('로그인 요청 중 오류 발생:', error);
     document.getElementById('pwChkMessage').textContent = '로그인 중 오류가 발생했습니다. 다시 시도해주세요.';
-    console.log(document.getElementById('pwChkMessage'));
   }
 }
 

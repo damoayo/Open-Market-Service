@@ -230,3 +230,68 @@ footer {
   width: 32px;
   height: 32px;
 }
+
+/* ###########   드롭다운박스    ########### */
+/* .dropdown-box {
+  position: relative;
+  width: 130px;
+  height: 118px;
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.dropdown-box::before {
+  content: '';
+  position: absolute;
+  top: -10px; 
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 10px 10px 10px;
+  border-style: solid;
+  border-color: transparent transparent white transparent; 
+}
+ */
+#loginBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  /* color: green; */
+}
+.dropdown-box {
+  display: none;
+  position: absolute;
+  top: 85px;
+  right: 3.5%;
+  transform: translateX(-50%);
+  width: 130px;
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 10px 0;
+  text-align: center;
+}
+.dropdown-box::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 10px 10px 10px;
+  border-style: solid;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-color: transparent transparent white 
+  transparent;
+}
+.dropdown-box a {
+  display: block;
+  color: rgba(118, 118, 118, 1);
+  padding: 10px;
+  text-decoration: none;
+}
+.dropdown-box a:hover {
+  color: rgba(0, 0, 0, 1);
+}
