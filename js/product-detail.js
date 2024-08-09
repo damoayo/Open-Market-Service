@@ -43,7 +43,6 @@ function changeColor(element) {
 function reChangeColor(element) {
   const text = document.getElementById(element.id);
   const img = text.getElementsByTagName('img')[0];
-  console.log(img);
   if (element.id === 'loginBtn') {
     img.src = './assets/icon-user.svg';
     img.style.paddingLeft = '12px';
@@ -93,7 +92,7 @@ function updateNavLogin() {
   const dropdownMenu = document.getElementById('dropdownMenu');
   const logoutBtn = document.getElementById('logoutBtn');
   const loginImg = loginLink.querySelector('img');
-  
+
   // 로그인 버튼을 마이페이지로 변경
   loginLink.innerHTML = '<img src="./assets/icon-user.svg" alt="마이페이지" /> 마이페이지';
   reChangeColor(loginLink);
@@ -106,13 +105,13 @@ function updateNavLogin() {
     // 드롭다운 박스의 표시 상태를 토글
     dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
   });
-  
+
   // 이미지 클릭 시에도 버튼과 같은효과
   loginImg.addEventListener('click', (event) => {
     event.preventDefault(); // 기본 링크 동작을 막음
     loginLink.click();
   });
-  
+
   // 외부 클릭 시 드롭다운 박스 닫기
   window.addEventListener('click', (event) => {
     if (!event.target.closest('#loginBtn')) {
@@ -123,7 +122,7 @@ function updateNavLogin() {
       }
     }
   });
-  
+
   // 드롭다운 박스 클릭 시 이벤트 버블링 방지
   // 내부 클릭 시에도 드롭다운 박스가 닫히지 않도록 정상동작 보장
   dropdownMenu.addEventListener('click', (event) => {
@@ -143,7 +142,7 @@ function updateNavLogin() {
 function updateNavLogout() {
   const loginLink = document.getElementById('loginBtn');
   const cartLink = document.getElementById('cartBtn');
-  
+
   loginLink.innerHTML = '<img src="./assets/icon-user.svg" alt="로그인" /> 로그인';
   logoutIconColor(loginLink);
   logoutIconColor(cartLink);
@@ -156,59 +155,99 @@ function updateNavLogout() {
 
 /* ############################################ */
 
-// 로그인 요청
-async function login(id, pw, pw2, cellphone, name) {
-  try {
-    const res = await fetch('https://openmarket.weniv.co.kr/accounts/signup/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: id,
-        password: pw,
-        password2: pw2,
-        phone_number: cellphone,
-        name: name,
-      }),
-      credentials: 'include', // CORS를 지원할 경우 쿠키 포함
+// 제품 상세 요청
+
+document.addEventListener('DOMContentLoaded', function () {
+  // 상품 상세 정보 요청
+  async function productDetail(product_id) {
+    try {
+      const res = await fetch(`https://openmarket.weniv.co.kr/products/${product_id}/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // CORS를 지원할 경우 쿠키 포함
+      });
+
+      if (res.headers.get('content-type')?.includes('application/json')) {
+        const data = await res.json();
+        if (res.ok) {
+          console.log('상품 정보 가져오기 성공:', data);
+          return data; // 상품 정보를 반환
+        } else {
+          console.error('상품 정보 가져오기 실패:', data);
+          return null;
+        }
+      } else {
+        console.error('서버 응답이 JSON 형식이 아님');
+        return null;
+      }
+    } catch (error) {
+      console.error('상품 정보 요청 중 오류 발생:', error);
+      return null;
+    }
+  }
+
+  // 상품 데이터를 페이지에 반영하는 함수
+  function loadProduct(product) {
+    console.log(product);
+    document.getElementById('store-name').innerText = product.store_name;
+    document.getElementById('product-name').innerText = product.product_name;
+    document.getElementById('product-image').src = product.image;
+    document.getElementById('price').innerText = product.price.toLocaleString(); // 숫자를 통화 형식으로 변환 toLocaleString()사용
+    document.getElementById('stock').innerText = product.stock;
+    document.getElementById('total-price').innerText = product.price;
+
+    // 이벤트 핸들러 설정
+    const decreaseQtyBtn = document.getElementById('decrease-qty');
+    const increaseQtyBtn = document.getElementById('increase-qty');
+    const quantityInput = document.getElementById('quantity');
+
+    decreaseQtyBtn.addEventListener('click', function () {
+      let quantity = parseInt(quantityInput.value);
+      if (quantity > 1) {
+        quantity--;
+        quantityInput.value = quantity;
+        updateTotalPrice(product.price, quantity);
+      }
     });
 
-    // JSON 파싱 전에 content-type 확인
-    if (res.headers.get('content-type')?.includes('application/json')) {
-      const data = await res.json();
-      if (res.ok) {
-        // console.log('로그인 성공:', data);
-
-        // 로그인 성공 후 상태 저장 (예시로 로컬 스토리지 사용)
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('token', data.token); // 예시로 토큰 저장
-
-        // 로그인 성공 시 이전 페이지로 이동
-        window.history.back();
-      } else {
-        // console.error('로그인 실패:', data);
-        document.getElementById('pwChkMessage').textContent = '로그인에 실패했습니다. 아이디와 비밀번호를 확인하세요.';
-
-        // 비밀번호 입력창에 포커스하고, 입력값 비움
-        const $pwInput = document.getElementById('buyerPw');
-        $pwInput.value = '';
-        $pwInput.focus();
+    increaseQtyBtn.addEventListener('click', function () {
+      let quantity = parseInt(quantityInput.value);
+      if (quantity < product.stock) {
+        quantity++;
+        quantityInput.value = quantity;
+        updateTotalPrice(product.price, quantity);
       }
-    } else {
-      console.error('서버 응답이 JSON 형식이 아님');
-      document.getElementById('pwChkMessage').textContent = '서버 오류가 발생했습니다. 다시 시도해주세요.';
-    }
-  } catch (error) {
-    console.error('로그인 요청 중 오류 발생:', error);
-    document.getElementById('pwChkMessage').textContent = '로그인 중 오류가 발생했습니다. 다시 시도해주세요.';
+    });
   }
-}
+
+  // 수량 변경 시 총 가격을 업데이트하는 함수
+  function updateTotalPrice(price, quantity) {
+    document.getElementById('total-price').innerText = price * quantity;
+  }
+
+  // 현재 URL에서 쿼리 스트링을 가져옴
+  const urlParams = new URLSearchParams(window.location.search);
+  const product_id = urlParams.get('product_id');
+
+  if (product_id) {
+    productDetail(product_id).then((product) => {
+      if (product) {
+        loadProduct(product);
+      } else {
+        console.error('상품 정보를 불러오지 못했습니다.');
+      }
+    });
+  } else {
+    console.error('product_id가 URL에 존재하지 않습니다.');
+  }
+});
 
 // ########################################################
 
 // 폼 제출 이벤트 핸들러
-const $productsForm = document.getElementById('loginForm');
+/* const $productsForm = document.getElementById('loginForm');
 $loginForm.addEventListener('submit', function (event) {
   event.preventDefault(); // 폼 기본 제출기능 제한
 
@@ -264,10 +303,4 @@ $loginForm.addEventListener('submit', function (event) {
   }
 
   login(id, pw, pw2, cellphone, name);
-});
-
-
-
-
-
-
+}); */

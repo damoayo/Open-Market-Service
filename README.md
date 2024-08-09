@@ -131,12 +131,12 @@
 │ ├── login.html - 구매자 로그인 페이지
 │ ├── signup.html - 구매자 회원가입 페이지
 │ ├── products.html - 상품 목록 페이지
-│ ├── product-details.html - 상품 상세 페이지
+│ ├── product_details.html - 상품 상세 페이지
 │ ├── cart.html - 장바구니 페이지
 │ ├── checkout.html - 주문/결제 페이지
-│ ├── seller-login.html - 판매자 로그인 페이지
-│ ├── seller-products.html - 판매자 상품 관리 페이지
-│ ├── seller-product-new.html - 상품 등록 페이지
+│ ├── seller_login.html - 판매자 로그인 페이지
+│ ├── seller_products.html - 판매자 상품 관리 페이지
+│ ├── seller_product_new.html - 상품 등록 페이지
 │ ├── /css - 스타일시트
 │ ├── /js - 자바스크립트 파일
 │ ├── /images - 이미지 파일

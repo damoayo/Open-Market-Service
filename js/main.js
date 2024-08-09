@@ -208,6 +208,11 @@ function displayProducts(products) {
     products.forEach((product, index) => {
       const container = document.createElement('div');
       container.className = 'container';
+      container.style.cursor = 'pointer'; // 커서 모양 변경
+      container.onclick = () => {
+        // 제품 상세 페이지로 이동, product_id를 쿼리 파라미터로 전달
+        window.location.href = `product-detail.html?product_id=${product.product_id}`;
+      };
 
       const image = document.createElement('img');
       image.src = product.image;
