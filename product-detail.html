@@ -42,18 +42,36 @@
       <div class="product-container">
         <img id="product-image" src="" alt="상품 이미지" />
         <div class="wrap">
-          <p id="store-name">상점 이름</p>
-          <h1 id="product-name">상품 이름</h1>
-          <p id="product-price"><span id="price"></span><span id="currency">원</span></p>
-          <p id="deliver">택배배송 / 무료배송</p>
-
-          <div class="quantity-selector">
-            <button id="decrease-qty">-</button>
-            <input type="text" id="quantity" value="1" readonly />
-            <button id="increase-qty">+</button>
+          <span id="stock" class="sr-only"></span>
+          <div class="product-meta">
+            <p id="store-name">상점 이름</p>
+            <h1 id="product-name">상품 이름</h1>
+            <div class="priceWon">
+              <p id="product-price">
+                <span id="price">17500</span>
+                <!-- 예시로 17500원 설정 -->
+                <span id="currency">원</span>
+              </p>
+            </div>
+            <p id="deliver">택배배송 / 무료배송</p>
           </div>
-          <p><span id="stock"></span></p>
-          <p>총 가격: <span id="total-price"></span>원</p>
+          <div class="quantity-selector">
+            <button id="minus">-</button>
+            <span id="quantity">1</span>
+            <button id="plus">+</button>
+          </div>
+          <div id="priceWrap">
+            <span>총 상품 금액</span>
+            <p id="totalQuan">
+              <span>총수량</span>
+              <span id="total"></span>
+              <span>개 | </span>
+            </p>
+            <p id="sum-price">
+              <span id="sumPrice"></span>
+              <span id="sumCurrency">원</span>
+            </p>
+          </div>
           <div class="buyButtons">
             <button id="buy-now">바로 구매</button>
             <button id="add-to-cart">장바구니</button>

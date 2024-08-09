@@ -190,41 +190,93 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // 상품 데이터를 페이지에 반영하는 함수
   function loadProduct(product) {
-    console.log(product);
     document.getElementById('store-name').innerText = product.store_name;
     document.getElementById('product-name').innerText = product.product_name;
     document.getElementById('product-image').src = product.image;
     document.getElementById('price').innerText = product.price.toLocaleString(); // 숫자를 통화 형식으로 변환 toLocaleString()사용
     document.getElementById('stock').innerText = product.stock;
-    document.getElementById('total-price').innerText = product.price;
+    document.getElementById('sumPrice').innerText = (product.price * 1).toLocaleString(); // 초기 합계 설정
+    const total = document.getElementById('total');
 
-    // 이벤트 핸들러 설정
-    const decreaseQtyBtn = document.getElementById('decrease-qty');
-    const increaseQtyBtn = document.getElementById('increase-qty');
     const quantityInput = document.getElementById('quantity');
+    const totalPriceElement = document.getElementById('sumPrice');
+
+    // 수량 조절 버튼 이벤트 핸들러 설정
+    const decreaseQtyBtn = document.getElementById('minus');
+    const increaseQtyBtn = document.getElementById('plus');
+
+    let currentQuantity = 1;
+    total.innerText = currentQuantity;
+    updateTotalPrice(product.price, 1);
 
     decreaseQtyBtn.addEventListener('click', function () {
-      let quantity = parseInt(quantityInput.value);
-      if (quantity > 1) {
-        quantity--;
-        quantityInput.value = quantity;
-        updateTotalPrice(product.price, quantity);
+      if (currentQuantity > 1) {
+        currentQuantity--;
+        quantityInput.innerText = currentQuantity;
+        total.innerText = currentQuantity;
+        updateTotalPrice(product.price, currentQuantity);
+        increaseQtyBtn.disabled = false; // 감소 시 증가 버튼 활성화
       }
     });
 
     increaseQtyBtn.addEventListener('click', function () {
-      let quantity = parseInt(quantityInput.value);
-      if (quantity < product.stock) {
-        quantity++;
-        quantityInput.value = quantity;
-        updateTotalPrice(product.price, quantity);
+      if (currentQuantity < product.stock) {
+        currentQuantity++;
+        quantityInput.innerText = currentQuantity;
+        total.innerText = currentQuantity;
+        updateTotalPrice(product.price, currentQuantity);
+
+        if (currentQuantity === product.stock) {
+          increaseQtyBtn.disabled = true; // 재고에 도달하면 버튼 비활성화
+        }
       }
     });
-  }
 
-  // 수량 변경 시 총 가격을 업데이트하는 함수
-  function updateTotalPrice(price, quantity) {
-    document.getElementById('total-price').innerText = price * quantity;
+    // 총 가격 업데이트 함수
+    function updateTotalPrice(price, quantity) {
+      const totalPrice = price * quantity;
+      totalPriceElement.style.cssText = `
+        font-family: Spoqa Han Sans Neo;
+        font-size: 36px;
+        font-weight: 700;
+        line-height: 45.07px;
+        text-align: left;
+        color: #21bf48ff;`;
+      totalPriceElement.innerText = totalPrice.toLocaleString();
+    }
+
+    // "바로 구매" 버튼
+    document.getElementById('buy-now').addEventListener('click', function () {
+      // 결제 페이지로 이동
+      window.location.href = '/checkout';
+    });
+
+    // "장바구니" 버튼
+    document.getElementById('add-to-cart').addEventListener('click', function () {
+      // 상품을 장바구니에 추가
+      addToCart(currentQuantity);
+
+      // 장바구니 페이지로 이동
+      window.location.href = '/cart';
+    });
+
+    // 장바구니에 추가 함수 (중복 방지)
+    function addToCart(quantity) {
+      const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+      // 이미 장바구니에 있는지 확인
+      const existingItemIndex = cartItems.findIndex((item) => item.productId === product.product_id);
+
+      if (existingItemIndex > -1) {
+        // 이미 장바구니에 있는 경우 수량만 업데이트
+        cartItems[existingItemIndex].quantity += quantity;
+      } else {
+        // 장바구니에 없는 경우 새 항목 추가
+        cartItems.push({productId: product.product_id, quantity});
+      }
+
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    }
   }
 
   // 현재 URL에서 쿼리 스트링을 가져옴
@@ -245,62 +297,3 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // ########################################################
-
-// 폼 제출 이벤트 핸들러
-/* const $productsForm = document.getElementById('loginForm');
-$loginForm.addEventListener('submit', function (event) {
-  event.preventDefault(); // 폼 기본 제출기능 제한
-
-  // 체크박스 체크여부 확인
-  const $agree = document.getElementById('agreeChk');
-  $agree.checked = true;
-
-  // 사용자 입력 값 가져오기
-  const $idInput = document.getElementById('userId').value;
-  const $pwInput = document.getElementById('userPw').value;
-  const $repwInput = document.getElementById('userRepw').value;
-  const $userName = document.getElementById('userName').value;
-  const $phonePrefix = document.getElementById('phone-prefix').value;
-  const $phone1 = document.getElementById('userTel1').value;
-  const $phone2 = document.getElementById('userTel2').value;
-  const $cellphone = `${$phonePrefix}${$phone1}${$phone2}`;
-
-  // 입력 값 검증 및 체크박스 확인
-  if (!$idInput || !$pwInput || !$repwInput || !$cellphone || !$userName) {
-    pwChkMessage.textContent = '모든 항목을 필수로 작성해야 합니다.';
-    return;
-  } else if (!isAgreeChecked) {
-    pwChkMessage.textContent = '약관에 동의해야 가입할 수 있습니다.';
-    return;
-  }
-
-  // 입력이 모두 있는지 확인
-  const id = $idInput.trim(); // $idInput.value.trim()로 하면 안됌.
-  const pw = $pwInput.trim();
-  const pw2 = $repwInput.trim();
-  const cellphone = $cellphone.trim();
-  const name = $userName.trim();
-
-  const arr = [id, pw, pw2, cellphone, name];
-
-  arr.forEach((item) => {
-    if (!item) {
-      errMessageElement.textContent = '모든 항목을 필수로 작성해야 합니다.';
-      return;
-    }
-  });
-
-  // 로그인 타입확인
-  const login_type = currentLoginType;
-
-  // 판매회원가입시 추가항목은 기재에서 제외
-
-  if (login_type === 'SELLER') {
-    const $businessUserId = document.getElementById('businessUserId');
-    const $storName = document.getElementById('storeName');
-    $storName.setAttribute('required', 'required');
-    $businessUserId.setAttribute('required', 'required');
-  }
-
-  login(id, pw, pw2, cellphone, name);
-}); */
