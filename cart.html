@@ -25,7 +25,7 @@
                   ><img src="./assets/icon-shopping-cart.svg" alt="장바구니" /> 장바구니</a
                 >
               </li>
-              <li>
+              <li id="loginDropdown">
                 <a href="./login.html" id="loginBtn"><img src="./assets/icon-user.svg" alt="로그인" /> 로그인</a>
                 <div id="dropdownMenu" class="dropdown-box">
                   <a href="#mypage">마이페이지</a>
@@ -38,24 +38,30 @@
       </div>
     </header>
     <main>
-      <div id="cart-container"></div>
-      <div id="cartContainer"></div>
-      <div id="productMessage"></div>
-      <!--       <section class="cart-item">
-        <img src="#" alt="단독! 개발자 무료 담요" />
-        <div class="cart-item-info">
-          <p class="cart-item-title">단독! 개발자 무료 담요</p>
-          <p class="cart-item-price">17,500원</p>
+      <section>
+        <div>
+          <h2>장바구니</h2>
         </div>
-        <div class="cart-item-quantity">
-          <button aria-label="수량 줄이기">-</button>
-          <input type="number" value="1" aria-label="수량" />
-          <button aria-label="수량 늘리기">+</button>
+        <div id="cart-container"></div>
+        <container>
+          <div id="productMessage"></div>
+          <div id="cartContainer">
+            <div id="cartList"></div>
+          </div>
+          <div id="cartTotal"></div>
+          <button>주문하기</button>
+        </container>
+        <div id="deleteModal" class="modalDel" style="display: none">
+          <div class="modal-content">
+            <p>이 항목을 삭제하시겠습니까?</p>
+            <div class="cancleBtn">
+              <button id="cancelDelete">취소</button>
+              <button id="confirmDelete">확인</button>
+            </div>
+          </div>
         </div>
-        <button>주문하기</button>
-      </section> -->
+      </section>
     </main>
-
     <footer>
       <div class="footer-container">
         <div class="wrap">

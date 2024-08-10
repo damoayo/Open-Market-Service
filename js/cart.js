@@ -126,7 +126,7 @@ function updateNavLogin() {
   });
 }
 // 로그아웃 상태일 때 네비게이션 업데이트
-function updateNavLogout() {
+/* function updateNavLogout() {
   const loginLink = document.getElementById('loginBtn');
   const cartLink = document.getElementById('cartBtn');
 
@@ -137,28 +137,29 @@ function updateNavLogout() {
     event.preventDefault(); // 기본 링크 동작을 막음
     // 로그인 페이지로 리디렉션
     window.location.href = 'login.html';
+    return;
   });
-}
+} */
 
 /* ################ cart 상품목록 가져오기 ################ */
 
 async function fetchCart() {
   try {
-    // 로컬 스토리지에서 JWT 토큰을 가져옵니다.
     const token = localStorage.getItem('token');
 
-    // 만약 토큰이 없으면 요청을 보내지 않고 에러를 던집니다.
     if (!token) {
-      throw new Error('JWT 토큰이 없습니다. 로그인이 필요합니다.');
+      document.getElementById('productMessage').textContent = '로그인이 필요합니다!';
+      window.history.back();
+      return; // 함수 실행 중단
     }
 
     const res = await fetch('https://openmarket.weniv.co.kr/cart/', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `JWT ${token}`, // JWT 토큰을 Authorization 헤더에 추가
+        Authorization: `JWT ${token}`,
       },
-      credentials: 'include', // CORS를 지원할 경우 쿠키 포함
+      credentials: 'include',
     });
 
     if (!res.ok) {
@@ -166,7 +167,6 @@ async function fetchCart() {
     }
 
     const data = await res.json();
-    // 데이터를 가져오는 데 성공! 데이터 처리하는 함수를 호출
     handleCartData(data);
   } catch (error) {
     console.error('제품 목록 요청 중 오류 발생:', error);
@@ -174,49 +174,176 @@ async function fetchCart() {
   }
 }
 
-// 제품이 있고 없고에 따라 분기
+// 로컬스토리지와 서버에서 가져온 데이터를 확인
 function handleCartData(data) {
-  const cartItems = JSON.parse(localStorage.getItem('cartItems'));
-  console.log(cartItems);
+  const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
   const cartItemsQuan = cartItems.length;
-  const cartData = data.results;
-  if (data.results.length === 0 && cartItemsQuan === 0) {
-    // 장바구니에 상품이 없을 경우
+  const cartData = data.results || [];
+
+  if (cartData.length === 0 && cartItemsQuan === 0) {
     console.log('장바구니에 상품이 없습니다.');
     displayEmptyCartMessage();
+    document.getElementById('productMessage').innerHTML = `
+        <p>장바구니에 상품이 없습니다.</p>
+    `;
   } else {
-    // 장바구니에 상품이 있을 경우
-    console.log('장바구니에 상품이 있습니다:', data.results);
     displayCartItems(cartItems, cartData);
   }
 }
 
-function displayEmptyCartMessage() {
-  document.getElementById('productMessage').innerHTML = `
-        <p>장바구니에 상품이 없습니다.</p>
-    `;
+async function fetchProductDetails(product_id) {
+  try {
+    const res = await fetch(`https://openmarket.weniv.co.kr/products/${product_id}/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+
+    if (res.headers.get('content-type')?.includes('application/json')) {
+      const data = await res.json();
+      if (res.ok) {
+        return data;
+      } else {
+        console.error('상품 정보 가져오기 실패:', data);
+        return null;
+      }
+    } else {
+      console.error('서버 응답이 JSON 형식이 아님');
+      return null;
+    }
+  } catch (error) {
+    console.error('상품 정보 요청 중 오류 발생:', error);
+    return null;
+  }
 }
 
-function displayCartItems(cartItems, cartData) {
-  const items = [...cartItems,...cartData]
+// 카트와 서버의 데이터를 합치고, 상품 정보를 가져와 화면에 표시
+async function displayCartItems(cartItems, cartData) {
+  const items = [...cartItems, ...cartData];
   const productMessage = document.getElementById('productMessage');
-  productMessage.innerHTML = ''; // 기존 내용을 비우고 새로 작성
+  productMessage.innerHTML = '';
 
-  items.forEach((item) => {
-    console.log('장바구니 항목:', item);
-    const itemElement = document.createElement('div');
-    itemElement.className = 'cart-item';
-    itemElement.innerHTML = `
-            <p>상품 ID: ${item.productId}</p>
-            <p>수량: ${item.quantity}</p>
-            <p>장바구니 항목 ID: ${item.cart_item_id}</p>
-            <p>활성화 상태: ${item.is_active ? '활성화됨' : '비활성화됨'}</p>
-        `;
-    cartContainer.appendChild(itemElement);
+  // 합친 데이터를 기반으로 상품 정보를 Promise로 가져옴
+  const productDetailsPromises = items.map((item) => fetchProductDetails(item.productId));
+
+  // 비동기작업을 병렬로 실행하여 모두완료가 된후에 배열로 반환
+  const productDetails = await Promise.all(productDetailsPromises); // Promise.all()은 모든 Promise가 완료될 때까지 기다림
+
+  productDetails.forEach((product, index) => {
+    if (product) {
+      const item = items[index];
+      const itemElement = document.createElement('div');
+      const cartList = document.getElementById('cartList');
+      const localPrice = product.price.toLocaleString();
+      const totalPrice = item.quantity * product.price;
+
+      itemElement.innerHTML = `
+      <div class="cart-item">
+        <div class="cartFront">
+          <div class="custom">
+            <input type="checkbox" class="chk">
+            <label><em></em></label>
+          </div>
+          <img src="${product.image}" alt="단독! 개발자 무료 담요" />
+          <div class="cartItemInfo">
+            <p class="cart-item-store">${product.store_name}</p>
+            <p class="cart-item-title">${product.product_name}</p>
+            <p class="cart-item-price">${localPrice}<span>원</span></p>
+            <p class="delivery">택배배송 / 무료배송</p>
+          </div>
+        </div>
+        <div class="cartWrapRight">
+          <div class="quantity-selector">
+            <button class="minus">-</button>
+            <span class="quantity">${item.quantity}</span>
+            <button class="plus">+</button>
+          </div>
+          <div class="buyButtons">
+            <p class="sum-price">${totalPrice.toLocaleString()}원</p>
+            <button class="buy-now">주문하기</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+      cartList.appendChild(itemElement);
+
+      // 여기서부터 요소를 찾는 작업
+      const checkbox = itemElement.querySelector('.chk');
+      const deleteModal = document.getElementById('deleteModal');
+      const confirmDeleteBtn = document.getElementById('confirmDelete');
+      const cancelDeleteBtn = document.getElementById('cancelDelete');
+
+      // 요소가 null이 아닌지 확인
+      console.log('checkbox:', checkbox);
+      console.log('confirmDeleteBtn:', confirmDeleteBtn);
+      console.log('cancelDeleteBtn:', cancelDeleteBtn);
+
+      if (checkbox && confirmDeleteBtn && cancelDeleteBtn) {
+        checkbox.addEventListener('change', function () {
+          if (checkbox.checked) {
+            deleteModal.style.display = 'flex';
+
+            confirmDeleteBtn.onclick = function () {
+              items.splice(index, 1); // items 배열에서 해당 항목 제거
+              localStorage.setItem('cartItems', JSON.stringify(items)); // 로컬 스토리지 업데이트
+              cartList.removeChild(itemElement); // DOM에서 요소 제거
+              deleteModal.style.display = 'none';
+            };
+
+            cancelDeleteBtn.onclick = function () {
+              deleteModal.style.display = 'none';
+              checkbox.checked = false;
+            };
+          }
+        });
+      } else {
+        console.error('필요한 요소를 찾을 수 없습니다.');
+      }
+
+      // 수량 조절 버튼 및 이벤트 핸들러 설정
+      const decreaseQtyBtn = itemElement.querySelector('.minus');
+      const increaseQtyBtn = itemElement.querySelector('.plus');
+      const quantitySpan = itemElement.querySelector('.quantity');
+      const sumPriceElement = itemElement.querySelector('.sum-price');
+
+      // 요소가 null이 아닌지 확인
+      console.log('decreaseQtyBtn:', decreaseQtyBtn);
+      console.log('increaseQtyBtn:', increaseQtyBtn);
+      console.log('quantitySpan:', quantitySpan);
+      console.log('sumPriceElement:', sumPriceElement);
+
+      let currentQuantity = item.quantity;
+
+      if (decreaseQtyBtn && increaseQtyBtn && quantitySpan && sumPriceElement) {
+        decreaseQtyBtn.addEventListener('click', function () {
+          if (currentQuantity > 1) {
+            currentQuantity--;
+            quantitySpan.innerText = currentQuantity;
+            updateTotalPrice(product.price, currentQuantity, sumPriceElement);
+          }
+        });
+
+        increaseQtyBtn.addEventListener('click', function () {
+          if (currentQuantity < product.stock) {
+            currentQuantity++;
+            quantitySpan.innerText = currentQuantity;
+            updateTotalPrice(product.price, currentQuantity, sumPriceElement);
+          }
+        });
+      } else {
+        console.error('필요한 요소를 찾을 수 없습니다.');
+      }
+
+      function updateTotalPrice(price, quantity, element) {
+        const totalPrice = price * quantity;
+        element.innerText = `${totalPrice.toLocaleString()}원`;
+      }
+    }
   });
 }
-
-/* ############################################## */
 
 // 로그인 상태 확인 및 네비게이션 업데이트
 function checkLoginStatus() {
@@ -226,6 +353,8 @@ function checkLoginStatus() {
     updateNavLogin();
     fetchCart();
   } else {
+    window.location.href = 'login.html';
+    return;
     updateNavLogout();
   }
 }

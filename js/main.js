@@ -18,9 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // 로그인-클릭 icon 함수
 function changeColor(element) {
   const text = document.getElementById(element.id);
-  // const cartLink = document.getElementById('cartBtn');
   const img = text.getElementsByTagName('img')[0];
-  // const cartImg = cartLink.getElementsByTagName('img')[0];
 
   // "로그인-클릭" icon
   if (element.id === 'loginBtn') {
