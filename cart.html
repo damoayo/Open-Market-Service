@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/reset.css" />
-    <link rel="stylesheet" href="./css/product-detail.css" />
-    <title>오픈마켓 서비스</title>
+    <link rel="stylesheet" href="./css/cart.css" />
+    <title>장바구니</title>
   </head>
   <body>
     <header>
       <div class="header-container">
-        <h1 class="sr-only">오픈마켓 서비스</h1>
+        <h1 class="sr-only">장바구니</h1>
         <div class="wrap-container">
           <div class="wrap-logo">
             <a href="/" class="logo"><img src="./assets/Logo-hodu.png" alt="HODU 로고" /></a>
@@ -38,59 +38,27 @@
       </div>
     </header>
     <main>
-      <div class="product-container">
-        <img id="product-image" src="" alt="상품 이미지" />
-        <div class="wrap">
-          <span id="stock" class="sr-only"></span>
-          <div class="product-meta">
-            <p id="store-name">상점 이름</p>
-            <h1 id="product-name">상품 이름</h1>
-            <div class="priceWon">
-              <p id="product-price">
-                <span id="price">17500</span>
-                <!-- 예시로 17500원 설정 -->
-                <span id="currency">원</span>
-              </p>
-            </div>
-            <p id="deliver">택배배송 / 무료배송</p>
-          </div>
-          <div class="quantity-selector">
-            <button id="minus">-</button>
-            <span id="quantity">1</span>
-            <button id="plus">+</button>
-          </div>
-          <div id="priceWrap">
-            <span>총 상품 금액</span>
-            <p id="totalQuan">
-              <span>총수량</span>
-              <span id="total"></span>
-              <span>개 | </span>
-            </p>
-            <p id="sum-price">
-              <span id="sumPrice"></span>
-              <span id="sumCurrency">원</span>
-            </p>
-          </div>
-          <div class="buyButtons">
-            <button id="buy-now">바로 구매</button>
-            <button id="add-to-cart" class="modal_btn">장바구니</button>
-          </div>
-          <div id="cartDropdown" class="cartDropdown-box">
-            <p>상품이 추가되었습니다!</p>
-            <div id="cartPopup">
-              <button onclick="location.href='./cart.html'">장바구니</button>
-              <button  id="cartLogoutBtn">계속쇼핑</button>
-            </div>
-          </div>
-          <!-- <div id="addToCartMessage"></div> -->
+      <div id="cart-container"></div>
+      <div id="cartContainer"></div>
+      <div id="productMessage"></div>
+      <!--       <section class="cart-item">
+        <img src="#" alt="단독! 개발자 무료 담요" />
+        <div class="cart-item-info">
+          <p class="cart-item-title">단독! 개발자 무료 담요</p>
+          <p class="cart-item-price">17,500원</p>
         </div>
-      </div>
+        <div class="cart-item-quantity">
+          <button aria-label="수량 줄이기">-</button>
+          <input type="number" value="1" aria-label="수량" />
+          <button aria-label="수량 늘리기">+</button>
+        </div>
+        <button>주문하기</button>
+      </section> -->
     </main>
 
-    <!-- 푸터부분 -->
     <footer>
       <div class="footer-container">
-        <div class="footerWrap">
+        <div class="wrap">
           <nav class="footer-nav">
             <a href="#">호두샵 소개</a> | <a href="#">이용약관</a> | <a href="#"><span>개인정보처리방침</span></a> |
             <a href="#">전자금융거래약관</a> | <a href="#">청소년보호정책</a> |
@@ -110,6 +78,6 @@
         </div>
       </div>
     </footer>
-    <script src="./js/product-detail.js"></script>
+    <script src="./js/cart.js"></script>
   </body>
 </html>

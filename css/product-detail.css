@@ -134,56 +134,47 @@ main {
 .dropdown-box a:hover {
   color: rgba(0, 0, 0, 1);
 }
+/* ########### cart드롭다운박스 ################ */
+
+.cartDropdown-box {
+  display: none;
+  position: absolute;
+  top: 565px;
+  left: 490px;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 90px;
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  box-sizing: border-box;
+}
+.cartDropdown-box ::before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 10px 10px 10px;
+  border-style: solid;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-color: transparent transparent white transparent;
+}
+.cartDropdown-box p {
+  display: block;
+  color: rgba(118, 118, 118, 1);
+  padding: 10px;
+  text-decoration: none;
+}
+.cartDropdown-box a {
+  margin-top: 10px;
+  color: rgba(0, 0, 0, 1);
+}
 
 /* ######################################################### */
-
-/* 배너 스타일 */
-/* .banner {
-  width: 1920px;
-  height: 500px;
-  background: rgba(242, 242, 242, 1);
-  text-align: center;
-}
- */
-/* 상품 목록 스타일 */
-/* .product-list {
-  width: 1280px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  gap: 20px;
-  padding: 20px;
-  background-color: #fff;
-}
-
-.product-item {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  width: calc(20% - 20px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  transition: transform 0.2s;
-}
-
-.product-item:hover {
-  transform: translateY(-5px);
-}
-
-.product-info {
-  padding: 10px;
-}
-
-.product-name {
-  font-size: 1.1em;
-  margin: 10px 0;
-}
-
-.product-price {
-  color: #333;
-  font-weight: bold;
-} */
 
 /* ########### 푸터 스타일 ##########################*/
 
@@ -204,7 +195,7 @@ footer {
   flex-direction: column;
   justify-content: space-between;
 }
-.wrap {
+.footerWrap {
   height: 108px;
   display: flex;
   justify-content: space-between;
@@ -299,6 +290,7 @@ footer {
   flex-direction: column;
   margin-left: 50px;
   border: none;
+  position: relative;
 }
 
 .product-meta {
@@ -414,6 +406,12 @@ footer {
 #sumPrice {
   width: 136px;
   height: 45px;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 45.07px;
+  text-align: left;
+  color: #21bf48ff;
 }
 #sumCurrency {
   font-family: 'Spoqa Han Sans Neo', sans-serif;
@@ -469,4 +467,11 @@ footer {
   line-height: 22px;
   text-align: center;
   border: none;
+}
+#addToCartMessage {
+  text-align: right;
+  margin-right: 60px;
+  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  color: rgba(33, 191, 72, 1);
+  font-size: 18px;
 }

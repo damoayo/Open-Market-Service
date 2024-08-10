@@ -1,18 +1,3 @@
-// 로그인 상태 확인 및 네비게이션 업데이트
-function checkLoginStatus() {
-  const isLoggedIn = localStorage.getItem('isLoggedIn');
-
-  if (isLoggedIn === 'true') {
-    updateNavLogin();
-  } else {
-    updateNavLogout();
-  }
-}
-// 페이지 로드 시 로그인 상태 확인
-document.addEventListener('DOMContentLoaded', () => {
-  checkLoginStatus();
-});
-
 /* ########################################### */
 // 로그인-클릭 icon 함수
 function changeColor(element) {
@@ -153,9 +138,7 @@ function updateNavLogout() {
   });
 }
 
-/* ############################################ */
-
-// 제품 상세 요청
+/* ################### 제품 상세 요청  ##################### */
 
 document.addEventListener('DOMContentLoaded', function () {
   // 상품 상세 정보 요청
@@ -200,6 +183,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const quantityInput = document.getElementById('quantity');
     const totalPriceElement = document.getElementById('sumPrice');
+    const cartDropdown = document.getElementById('cartDropdown');
+    const cartLogoutBtn = document.getElementById('cartLogoutBtn');
 
     // 수량 조절 버튼 이벤트 핸들러 설정
     const decreaseQtyBtn = document.getElementById('minus');
@@ -235,13 +220,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 총 가격 업데이트 함수
     function updateTotalPrice(price, quantity) {
       const totalPrice = price * quantity;
-      totalPriceElement.style.cssText = `
-        font-family: Spoqa Han Sans Neo;
-        font-size: 36px;
-        font-weight: 700;
-        line-height: 45.07px;
-        text-align: left;
-        color: #21bf48ff;`;
+
       totalPriceElement.innerText = totalPrice.toLocaleString();
     }
 
@@ -252,12 +231,19 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // "장바구니" 버튼
-    document.getElementById('add-to-cart').addEventListener('click', function () {
-      // 상품을 장바구니에 추가
-      addToCart(currentQuantity);
+    const addToCartButton = document.getElementById('add-to-cart');
+    addToCartButton.addEventListener('click', function () {
+      const isLoggedIn = localStorage.getItem('isLoggedIn');
+      if (!(isLoggedIn === 'true')) {
+        window.location.href = '/login';
+      } else {
+        addToCart(currentQuantity);
+        cartDropdown.style.display = 'block'; // 드롭다운 표시
+      }
+    });
 
-      // 장바구니 페이지로 이동
-      window.location.href = '/cart';
+    cartLogoutBtn.addEventListener('click', function () {
+      cartDropdown.style.display = 'none';
     });
 
     // 장바구니에 추가 함수 (중복 방지)
@@ -278,8 +264,6 @@ document.addEventListener('DOMContentLoaded', function () {
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
     }
   }
-
-  // 현재 URL에서 쿼리 스트링을 가져옴
   const urlParams = new URLSearchParams(window.location.search);
   const product_id = urlParams.get('product_id');
 
@@ -294,6 +278,23 @@ document.addEventListener('DOMContentLoaded', function () {
   } else {
     console.error('product_id가 URL에 존재하지 않습니다.');
   }
+});
+
+// ########################################################
+
+// 로그인 상태 확인 및 네비게이션 업데이트
+function checkLoginStatus() {
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+  if (isLoggedIn === 'true') {
+    updateNavLogin();
+  } else {
+    updateNavLogout();
+  }
+}
+// 페이지 로드 시 로그인 상태 확인
+document.addEventListener('DOMContentLoaded', () => {
+  checkLoginStatus();
 });
 
 // ########################################################
