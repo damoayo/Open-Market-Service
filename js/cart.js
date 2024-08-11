@@ -125,21 +125,6 @@ function updateNavLogin() {
     window.location.href = 'index.html';
   });
 }
-// 로그아웃 상태일 때 네비게이션 업데이트
-/* function updateNavLogout() {
-  const loginLink = document.getElementById('loginBtn');
-  const cartLink = document.getElementById('cartBtn');
-
-  loginLink.innerHTML = '<img src="./assets/icon-user.svg" alt="로그인" /> 로그인';
-  logoutIconColor(loginLink);
-  logoutIconColor(cartLink);
-  loginLink.addEventListener('click', (event) => {
-    event.preventDefault(); // 기본 링크 동작을 막음
-    // 로그인 페이지로 리디렉션
-    window.location.href = 'login.html';
-    return;
-  });
-} */
 
 /* ################ cart 상품목록 가져오기 ################ */
 
@@ -174,20 +159,32 @@ async function fetchCart() {
   }
 }
 
+function displayEmptyCartMessage() {
+  const productMessage = document.getElementById('productMessage');
+  productMessage.innerHTML = '';
+  const emptyCartMessage = document.createElement('div');
+  emptyCartMessage.innerHTML = `
+    <div id="productMessage">
+      <p>장바구니에 담긴 상품이 없습니다.</p>
+      <a href="./index.html">원하는 상품을 장바구니에 담아보세요!</a>
+    </div>
+  `;
+  cartList.appendChild(emptyCartMessage);
+}
+
 // 로컬스토리지와 서버에서 가져온 데이터를 확인
 function handleCartData(data) {
   const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
   const cartItemsQuan = cartItems.length;
   const cartData = data.results || [];
 
-  if (cartData.length === 0 && cartItemsQuan === 0) {
-    console.log('장바구니에 상품이 없습니다.');
-    displayEmptyCartMessage();
-    document.getElementById('productMessage').innerHTML = `
-        <p>장바구니에 상품이 없습니다.</p>
-    `;
-  } else {
+  if (!(cartData.length === 0 && cartItemsQuan === 0)) {
     displayCartItems(cartItems, cartData);
+  } else {
+    displayEmptyCartMessage();
+    /* document.getElementById('productMessage').innerHTML = `
+      <p></p>장바구니에 담긴 상품이 없습니다.</p>
+    `; */
   }
 }
 
@@ -231,13 +228,22 @@ async function displayCartItems(cartItems, cartData) {
   // 비동기작업을 병렬로 실행하여 모두완료가 된후에 배열로 반환
   const productDetails = await Promise.all(productDetailsPromises); // Promise.all()은 모든 Promise가 완료될 때까지 기다림
 
+  const cartList = document.getElementById('cartList');
+  let totalProductAmount = 0;
+
+  // 총 금액을 표시할 요소
+  const totalProductAmountElement = document.getElementById('totalProductAmount');
+  const finalAmountElement = document.getElementById('finalAmount');
+
   productDetails.forEach((product, index) => {
     if (product) {
       const item = items[index];
       const itemElement = document.createElement('div');
-      const cartList = document.getElementById('cartList');
       const localPrice = product.price.toLocaleString();
       const totalPrice = item.quantity * product.price;
+
+      // 초기 총 상품 금액 계산
+      totalProductAmount += totalPrice;
 
       itemElement.innerHTML = `
       <div class="cart-item">
@@ -270,79 +276,87 @@ async function displayCartItems(cartItems, cartData) {
 
       cartList.appendChild(itemElement);
 
-      // 여기서부터 요소를 찾는 작업
+      // 요소 선택
       const checkbox = itemElement.querySelector('.chk');
       const deleteModal = document.getElementById('deleteModal');
       const confirmDeleteBtn = document.getElementById('confirmDelete');
       const cancelDeleteBtn = document.getElementById('cancelDelete');
-
-      // 요소가 null이 아닌지 확인
-      console.log('checkbox:', checkbox);
-      console.log('confirmDeleteBtn:', confirmDeleteBtn);
-      console.log('cancelDeleteBtn:', cancelDeleteBtn);
-
-      if (checkbox && confirmDeleteBtn && cancelDeleteBtn) {
-        checkbox.addEventListener('change', function () {
-          if (checkbox.checked) {
-            deleteModal.style.display = 'flex';
-
-            confirmDeleteBtn.onclick = function () {
-              items.splice(index, 1); // items 배열에서 해당 항목 제거
-              localStorage.setItem('cartItems', JSON.stringify(items)); // 로컬 스토리지 업데이트
-              cartList.removeChild(itemElement); // DOM에서 요소 제거
-              deleteModal.style.display = 'none';
-            };
-
-            cancelDeleteBtn.onclick = function () {
-              deleteModal.style.display = 'none';
-              checkbox.checked = false;
-            };
-          }
-        });
-      } else {
-        console.error('필요한 요소를 찾을 수 없습니다.');
-      }
-
-      // 수량 조절 버튼 및 이벤트 핸들러 설정
       const decreaseQtyBtn = itemElement.querySelector('.minus');
       const increaseQtyBtn = itemElement.querySelector('.plus');
       const quantitySpan = itemElement.querySelector('.quantity');
       const sumPriceElement = itemElement.querySelector('.sum-price');
 
-      // 요소가 null이 아닌지 확인
-      console.log('decreaseQtyBtn:', decreaseQtyBtn);
-      console.log('increaseQtyBtn:', increaseQtyBtn);
-      console.log('quantitySpan:', quantitySpan);
-      console.log('sumPriceElement:', sumPriceElement);
-
       let currentQuantity = item.quantity;
 
-      if (decreaseQtyBtn && increaseQtyBtn && quantitySpan && sumPriceElement) {
-        decreaseQtyBtn.addEventListener('click', function () {
-          if (currentQuantity > 1) {
-            currentQuantity--;
-            quantitySpan.innerText = currentQuantity;
-            updateTotalPrice(product.price, currentQuantity, sumPriceElement);
-          }
-        });
+      // 수량 감소 이벤트
+      decreaseQtyBtn.addEventListener('click', function () {
+        if (currentQuantity > 1) {
+          currentQuantity--;
+          quantitySpan.innerText = currentQuantity;
+          updateTotalPrice(product.price, currentQuantity, sumPriceElement);
+          updateCartTotals();
+        }
+      });
 
-        increaseQtyBtn.addEventListener('click', function () {
-          if (currentQuantity < product.stock) {
-            currentQuantity++;
-            quantitySpan.innerText = currentQuantity;
-            updateTotalPrice(product.price, currentQuantity, sumPriceElement);
-          }
-        });
-      } else {
-        console.error('필요한 요소를 찾을 수 없습니다.');
-      }
+      // 수량 증가 이벤트
+      increaseQtyBtn.addEventListener('click', function () {
+        if (currentQuantity < product.stock) {
+          currentQuantity++;
+          quantitySpan.innerText = currentQuantity;
+          updateTotalPrice(product.price, currentQuantity, sumPriceElement);
+          updateCartTotals();
+        }
+      });
 
+      // 체크박스 클릭 시 삭제 모달 띄우기
+      checkbox.addEventListener('change', function () {
+        if (checkbox.checked) {
+          deleteModal.style.display = 'flex';
+
+          confirmDeleteBtn.onclick = function () {
+            items.splice(index, 1); // items 배열에서 해당 항목 제거
+            localStorage.setItem('cartItems', JSON.stringify(items)); // 로컬 스토리지 업데이트
+            cartList.removeChild(itemElement); // DOM에서 요소 제거
+            deleteModal.style.display = 'none';
+            updateCartTotals(); // 총 금액 업데이트
+            if (items.length === 0) {
+              displayEmptyCartMessage();
+            }
+          };
+
+          cancelDeleteBtn.onclick = function () {
+            deleteModal.style.display = 'none';
+            checkbox.checked = false;
+          };
+        }
+      });
+
+      // 각 상품의 합계 금액을 업데이트하는 함수
       function updateTotalPrice(price, quantity, element) {
         const totalPrice = price * quantity;
         element.innerText = `${totalPrice.toLocaleString()}원`;
       }
+
+      // 장바구니 총 금액을 업데이트하는 함수
+      function updateCartTotals() {
+        totalProductAmount = 0;
+
+        // 모든 cart-item 요소를 순회하면서 각 항목의 가격을 합산
+        document.querySelectorAll('.sum-price').forEach((sumPriceElement) => {
+          const itemTotal = parseInt(sumPriceElement.innerText.replace(/,/g, '').replace('원', '')); // 문자열을 숫자로 변환
+          totalProductAmount += itemTotal;
+        });
+
+        // 총 상품 금액 및 결제 예정 금액을 계산하여 업데이트
+        totalProductAmountElement.innerText = `${totalProductAmount.toLocaleString()}원`;
+        finalAmountElement.innerText = `${totalProductAmount.toLocaleString()}원`; // 여기서는 할인이나 배송비가 없다고 가정
+      }
     }
+    // 페이지 로드 시 초기 총 금액 설정
+    updateCartTotals();
   });
+
+ 
 }
 
 // 로그인 상태 확인 및 네비게이션 업데이트
@@ -355,7 +369,6 @@ function checkLoginStatus() {
   } else {
     window.location.href = 'login.html';
     return;
-    updateNavLogout();
   }
 }
 // 페이지 로드 시 로그인 상태 확인

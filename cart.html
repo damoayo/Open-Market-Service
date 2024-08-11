@@ -48,9 +48,29 @@
           <div id="cartContainer">
             <div id="cartList"></div>
           </div>
-          <div id="cartTotal"></div>
+          <div id="cartTotal">
+            <div class="cart-amounts">
+              <span>총 상품금액</span>
+              <p id="totalProductAmount">0원</p>
+            </div>
+            <span class="cart-minus"></span>
+            <div class="cart-discount">
+              <span>상품 할인</span>
+              <p id="totalDiscount">0원</p>
+            </div>
+            <span class="cart-plus"></span>
+            <div class="delivery-charge">
+              <span>배송비</span>
+              <p id="deliveryCharge">0원</p>
+            </div>
+            <div class="total-amount">
+              <span>결제 예정 금액</span>
+              <p id="finalAmount">0원</p>
+            </div>
+          </div>
           <button>주문하기</button>
         </container>
+
         <div id="deleteModal" class="modalDel" style="display: none">
           <div class="modal-content">
             <p>이 항목을 삭제하시겠습니까?</p>
