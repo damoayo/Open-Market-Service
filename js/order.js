@@ -233,7 +233,6 @@ async function displayCartItems(cartItems, cartData) {
 
   // 총 금액을 표시할 요소
   const totalProductAmountElement = document.getElementById('totalProductAmount');
-  const finalAmountElement = document.getElementById('finalAmount');
 
   productDetails.forEach((product, index) => {
     if (product) {
@@ -249,19 +248,16 @@ async function displayCartItems(cartItems, cartData) {
       itemElement.innerHTML = `
       <div class="cart-item">
         <div class="cartFront">
-          <div class="custom">
-            <input type="checkbox" id="${checkboxId}" class="chk">
-            <label for="${checkboxId}"><em></em></label>
-          </div>
           <img src="${product.image}" alt="단독! 개발자 무료 담요" />
           <div class="cartItemInfo">
             <p class="cart-item-store">${product.store_name}</p>
             <p class="cart-item-title">${product.product_name}</p>
-            <p class="cart-item-price">${localPrice}<span>원</span></p>
-            <p class="delivery">택배배송 / 무료배송</p>
+            <p class="cart-item-quantity">수량 : ${item.quantity}개</p>
+            
           </div>
         </div>
         <div class="cartWrapRight">
+          <div class="freeDelivery"><p>무료배송</p></div>
           <div class="quantity-selector">
             <button class="minus">-</button>
             <span class="quantity">${item.quantity}</span>
@@ -269,11 +265,11 @@ async function displayCartItems(cartItems, cartData) {
           </div>
           <div class="buyButtons">
             <p class="sum-price">${totalPrice.toLocaleString()}원</p>
-            <button class="buy-now">주문하기</button>
           </div>
         </div>
       </div>
     `;
+    
 
       cartList.appendChild(itemElement);
 
@@ -309,28 +305,7 @@ async function displayCartItems(cartItems, cartData) {
         }
       });
 
-      // 체크박스 클릭 시 삭제 모달 띄우기
-      checkbox.addEventListener('change', function () {
-        if (checkbox.checked) {
-          deleteModal.style.display = 'flex';
 
-          confirmDeleteBtn.onclick = function () {
-            items.splice(index, 1); // items 배열에서 해당 항목 제거
-            localStorage.setItem('cartItems', JSON.stringify(items)); // 로컬 스토리지 업데이트
-            cartList.removeChild(itemElement); // DOM에서 요소 제거
-            deleteModal.style.display = 'none';
-            updateCartTotals(); // 총 금액 업데이트
-            if (items.length === 0) {
-              displayEmptyCartMessage();
-            }
-          };
-
-          cancelDeleteBtn.onclick = function () {
-            deleteModal.style.display = 'none';
-            checkbox.checked = false;
-          };
-        }
-      });
 
       // 각 상품의 합계 금액을 업데이트하는 함수
       function updateTotalPrice(price, quantity, element) {
@@ -350,7 +325,7 @@ async function displayCartItems(cartItems, cartData) {
 
         // 총 상품 금액 및 결제 예정 금액을 계산하여 업데이트
         totalProductAmountElement.innerText = `${totalProductAmount.toLocaleString()}원`;
-        finalAmountElement.innerText = `${totalProductAmount.toLocaleString()}원`; // 여기서는 할인이나 배송비가 없다고 가정
+        // finalAmountElement.innerText = `${totalProductAmount.toLocaleString()}원`; // 여기서는 할인이나 배송비가 없다고 가정
       }
     }
     // 페이지 로드 시 초기 총 금액 설정

@@ -242,7 +242,7 @@ async function displayCartItems(cartItems, cartData) {
       const localPrice = product.price.toLocaleString();
       const totalPrice = item.quantity * product.price;
       const checkboxId = `check${index}`; // 고유한 체크박스 ID 생성
-
+console.log(product);
       // 초기 총 상품 금액 계산
       totalProductAmount += totalPrice;
 
