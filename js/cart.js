@@ -241,6 +241,7 @@ async function displayCartItems(cartItems, cartData) {
       const itemElement = document.createElement('div');
       const localPrice = product.price.toLocaleString();
       const totalPrice = item.quantity * product.price;
+      const checkboxId = `check${index}`; // 고유한 체크박스 ID 생성
 
       // 초기 총 상품 금액 계산
       totalProductAmount += totalPrice;
@@ -249,8 +250,8 @@ async function displayCartItems(cartItems, cartData) {
       <div class="cart-item">
         <div class="cartFront">
           <div class="custom">
-            <input type="checkbox" class="chk">
-            <label><em></em></label>
+            <input type="checkbox" id="${checkboxId}" class="chk">
+            <label for="${checkboxId}"><em></em></label>
           </div>
           <img src="${product.image}" alt="단독! 개발자 무료 담요" />
           <div class="cartItemInfo">
@@ -355,8 +356,6 @@ async function displayCartItems(cartItems, cartData) {
     // 페이지 로드 시 초기 총 금액 설정
     updateCartTotals();
   });
-
- 
 }
 
 // 로그인 상태 확인 및 네비게이션 업데이트
