@@ -100,11 +100,14 @@ main {
   cursor: pointer;
   font-size: 16px;
 }
+#loginDropdown{
+  position: relative;
+}
 .dropdown-box {
   display: none;
   position: absolute;
-  top: 85px;
-  right: 3.5%;
+  top: 60px;
+  right: -105px;
   transform: translateX(-50%);
   width: 130px;
   background-color: white;
@@ -117,7 +120,7 @@ main {
 .dropdown-box::before {
   content: '';
   position: absolute;
-  top: -10px;
+  top: -12px;
   left: 50%;
   transform: translateX(-50%);
   border-width: 0 10px 10px 10px;
