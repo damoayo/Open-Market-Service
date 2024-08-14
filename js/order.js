@@ -70,7 +70,6 @@ function logoutIconColor(element) {
   text.style.height = '14px';
 }
 
-/* ########### Mypage icon 렌더링 ############## */
 
 // 로그인 상태일 때 네비게이션 업데이트
 function updateNavLogin() {
@@ -182,9 +181,7 @@ function handleCartData(data) {
     displayCartItems(cartItems, cartData);
   } else {
     displayEmptyCartMessage();
-    /* document.getElementById('productMessage').innerHTML = `
-      <p></p>장바구니에 담긴 상품이 없습니다.</p>
-    `; */
+
   }
 }
 
@@ -198,50 +195,63 @@ async function fetchProductDetails(product_id) {
       credentials: 'include',
     });
 
-    if (res.headers.get('content-type')?.includes('application/json')) {
+    if (res.ok) {
       const data = await res.json();
-      if (res.ok) {
-        return data;
-      } else {
-        console.error('상품 정보 가져오기 실패:', data);
-        return null;
-      }
+      return data;
     } else {
-      console.error('서버 응답이 JSON 형식이 아님');
-      return null;
+      console.error("상품 정보를 가져오는 데 실패했습니다.");
+      // return null;
     }
   } catch (error) {
-    console.error('상품 정보 요청 중 오류 발생:', error);
-    return null;
+    console.error("상품 정보 요청 중 오류 발생:", error);
+    // return null;
   }
 }
 
 // 카트와 서버의 데이터를 합치고, 상품 정보를 가져와 화면에 표시
 async function displayCartItems(cartItems, cartData) {
   const items = [...cartItems, ...cartData];
-  const productMessage = document.getElementById('productMessage');
-  productMessage.innerHTML = '';
 
-  // 합친 데이터를 기반으로 상품 정보를 Promise로 가져옴
-  const productDetailsPromises = items.map((item) => fetchProductDetails(item.productId));
+  // 제품 ID를 기준으로 중복 확인 및 수량 합산
+  const uniqueItems = {};
+  items.forEach((item) => {
+    if (uniqueItems[item.productId]) {
+      uniqueItems[item.productId].quantity += item.quantity; // 중복 시 수량 합산
+    } else {
+      uniqueItems[item.productId] = { ...item }; // 새로운 항목으로 추가
+    }
+  });
+  // 중복 제거된 아이템 목록
+  const filteredItems = Object.values(uniqueItems);
+  const productMessage = document.getElementById("productMessage");
+  productMessage.innerHTML = "";
+
+  const filteredArr = filteredItems.map((item) => item.productId);
+  // undefined 또는 null 값 제거
+  let filteredIds = filteredArr.filter((product) => product !== undefined);
+
+  // 중복 제거된 아이템을 기반으로 상품 정보를 Promise로 가져옴
+  const productDetailsPromises = filteredIds.map((item) =>
+    fetchProductDetails(item)
+  );
 
   // 비동기작업을 병렬로 실행하여 모두완료가 된후에 배열로 반환
-  const productDetails = await Promise.all(productDetailsPromises); // Promise.all()은 모든 Promise가 완료될 때까지 기다림
-
-  const cartList = document.getElementById('cartList');
+  let productDetails = await Promise.all(productDetailsPromises); // Promise.all()은 모든 Promise가 완료될 때까지 기다림
+  const cartList = document.getElementById("cartList");
   let totalProductAmount = 0;
 
   // 총 금액을 표시할 요소
-  const totalProductAmountElement = document.getElementById('totalProductAmount');
+  const totalProductAmountElement =
+    document.getElementById("totalProductAmount");
+  const finalAmountElement = document.getElementById("finalAmount");
 
   productDetails.forEach((product, index) => {
     if (product) {
-      const item = items[index];
-      const itemElement = document.createElement('div');
+      const item = filteredItems[index];
+      const itemElement = document.createElement("div");
       const localPrice = product.price.toLocaleString();
       const totalPrice = item.quantity * product.price;
       const checkboxId = `check${index}`; // 고유한 체크박스 ID 생성
-
       // 초기 총 상품 금액 계산
       totalProductAmount += totalPrice;
 
