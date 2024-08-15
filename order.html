@@ -135,7 +135,7 @@
                   <div class="phone-group">
                     <input
                       type="text"
-                      id="ordererPhone1"
+                      id="recipientPhone1"
                       value="010"
                       required
                     />
@@ -219,9 +219,10 @@
                     >주문 내용을 확인하였으며, 정보 제공 등에 동의합니다.</label
                   >
                 </div>
-                <button type="submit" class="payment-button" disabled>
+                <button  id="orderButton" class="payment-button" disabled>
                   결제하기
                 </button>
+                <div id="orderFailed"></div>
               </div>
             </div>
           </form>

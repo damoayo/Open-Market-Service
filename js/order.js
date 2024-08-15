@@ -135,8 +135,8 @@ async function fetchCart() {
     if (!token) {
       document.getElementById("productMessage").textContent =
         "로그인이 필요합니다!";
-      window.history.back();
-      return; // 함수 실행 중단
+      window.location.href = "login.html";
+      return;
     }
 
     const res = await fetch("https://openmarket.weniv.co.kr/cart/", {
@@ -202,6 +202,7 @@ async function fetchProductDetails(product_id) {
 
     if (res.ok) {
       const data = await res.json();
+      console.log(data);
       return data;
     } else {
       console.error("상품 정보를 가져오는 데 실패했습니다.");
@@ -259,7 +260,6 @@ async function displayCartItems(cartItems, cartData) {
       const checkboxId = `check${index}`; // 고유한 체크박스 ID 생성
       // 초기 총 상품 금액 계산
       totalProductAmount += totalPrice;
-
       itemElement.innerHTML = `
       <div class="cart-item">
         <div class="cartFront">
@@ -310,6 +310,8 @@ async function displayCartItems(cartItems, cartData) {
         totalProductAmountElement.innerText = `${totalProductAmount.toLocaleString()}원`;
         // finalAmountElement.innerText = `${totalProductAmount.toLocaleString()}원`; // 여기서는 할인이나 배송비가 없다고 가정
       }
+
+      orderDetail(product.product_id, item.quantity, totalPrice);
     }
     // 페이지 로드 시 초기 총 금액 설정
     updateCartTotals();
@@ -331,10 +333,12 @@ function checkLoginStatus() {
 // 페이지 로드 시 로그인 상태 확인
 document.addEventListener("DOMContentLoaded", () => {
   checkLoginStatus();
+  orderDetail();
 });
 
 /* ######################################  주문정보 입력부분 */
-document.addEventListener("DOMContentLoaded", function () {
+function orderDetail(id, quantity, totalPrice) {
+  // console.log(id, quantity);
   const orderForm = document.getElementById("orderForm");
   const paymentButton = document.querySelector(".payment-button");
   const agreeTerms = document.getElementById("agreeTerms");
@@ -425,6 +429,88 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     }).open();
   });
-});
+
+  const $reciever = document.getElementById("recipientName").value;
+  const recipientPhoneInputs = document.querySelectorAll(
+    "#recipientPhone1, #recipientPhone2, #recipientPhone3"
+  );
+  const recieverPhone =
+    recipientPhoneInputs[0].value +
+    recipientPhoneInputs[1].value +
+    recipientPhoneInputs[2].value;
+  const shippingAddress = document.getElementById("shippingAddress");
+  const detailedAddress = document.getElementById("detailedAddress");
+  const adress = shippingAddress.value + detailedAddress.value;
+  const shippingMessage = document.getElementById("shippingMessage").value;
+  const payment_method = document.querySelector(
+    "input[name='payment_method']:checked"
+  );
+console.log(totalPrice)
+  document
+    .getElementById("orderButton")
+    .addEventListener("click", function (event) {
+      event.preventDefault(); // 폼 기본 제출기능 제한
+      order(
+        id,
+        quantity,
+        $reciever,
+        recieverPhone,
+        adress,
+        shippingMessage,
+        payment_method,
+        totalPrice
+      );
+    });
+}
 
 /* ######################################  주문정보 끝 */
+
+/* ######################################  주문을 서버에 요청 */
+async function order(
+  id,
+  quantity,
+  $reciever,
+  recieverPhone,
+  adress,
+  shippingMessage,
+  payment_method,
+  totalPrice
+) {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await fetch("https://openmarket.weniv.co.kr/order/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `JWT ${token}`,
+      },
+      body: JSON.stringify({
+        product_id: id,
+        quantity: quantity,
+        order_kind: "cart_order",
+        reciever: $reciever,
+        reciever_phone_number: recieverPhone,
+        address: adress,
+        address_message: shippingMessage,
+        payment_method: payment_method,
+        total_price: totalPrice,
+      }),
+      credentials: "include", // CORS를 지원할 경우 쿠키 포함
+    });
+    const data = await res.json();
+    console.log(data);
+    if (res.ok) {
+      // 주문성공시 메시지
+      alert("주문이 완료되었습니다.");
+      localStorage.removeItem("cartItems");
+    } else {
+      // console.error('로그인 실패:', data);
+      document.getElementById("orderFailed").textContent =
+        "주문에 실패했습니다. 입력사항을 다시 확인해 주세요.";
+    }
+  } catch (error) {
+    console.error("주문요청 중 오류 발생:", error);
+    document.getElementById("orderFailed").textContent =
+      "주문요청 중 오류가 발생했습니다. 다시 시도해주세요.";
+  }
+}
