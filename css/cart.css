@@ -549,6 +549,7 @@ section > container > button {
   text-align: center;
   color: rgba(255, 255, 255, 1);
   margin-top: 26px;
+  cursor: pointer;
 }
 
 /* ################  카트에 제품이 없을때 메시지 */

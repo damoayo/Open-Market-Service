@@ -183,7 +183,6 @@ function handleCartData(data) {
     displayCartItems(cartItems, cartData);
   } else {
     displayEmptyCartMessage();
- 
   }
 }
 
@@ -283,13 +282,26 @@ async function displayCartItems(cartItems, cartData) {
           </div>
           <div class="buyButtons">
             <p class="sum-price">${totalPrice.toLocaleString()}원</p>
-            <button class="buy-now">주문하기</button>
+            <button id="oneOrder${
+              product.product_id
+            }" class="buy-now">주문하기</button>
           </div>
         </div>
       </div>
     `;
 
       cartList.appendChild(itemElement);
+
+      // 단일주문하기 버튼 클릭 시 주문 페이지로 product_id, 수량,가격,등의 정보를 가지고 이동
+      // 주문하기 버튼에 클릭 이벤트 리스너 추가
+      const orderButton = document.getElementById(
+        `oneOrder${product.product_id}`
+      );
+      orderButton.addEventListener("click", function () {
+        // 제품의 ID, 수량, 가격을 URL에 포함하여 order.html로 이동
+        const url = `/order.html?id=${product.product_id}&quantity=${item.quantity}&totalPrice=${totalPrice}`;
+        window.location.href = url;
+      });
 
       // 요소 선택
       const checkbox = itemElement.querySelector(".chk");
