@@ -656,10 +656,20 @@ input[type="text"] {
   margin-left: 214px;
   color: magenta;
 }
+#shippingAddress{
+  width: 800px;
+  margin-left: -60px;
+  box-sizing: border-box;
+}
 #detailedAddress{
   width: 800px;
-  margin-left: 210px;
+  margin-left: -60px;
   box-sizing: border-box;
+}
+.adressGroup{
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
 }
 #shippingMessage{
   width: 800px;

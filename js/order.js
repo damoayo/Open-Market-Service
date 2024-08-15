@@ -343,6 +343,9 @@ document.addEventListener("DOMContentLoaded", function () {
   );
   const emailInput = document.getElementById("ordererEmail");
   const emailValidate = document.getElementById("emailValidate");
+  const postalLookupButton = document.getElementById("postalLookup");
+  const zipcodeInput = document.getElementById("zipcode");
+  const shippingAddressInput = document.getElementById("shippingAddress");
 
   // phone input 필드에 숫자만 입력할 수 있도록 제한
   phoneInputs.forEach((input) => {
@@ -411,7 +414,17 @@ document.addEventListener("DOMContentLoaded", function () {
       emailValidate.innerText = "";
     }
   });
+
+  // 우편번호 조회 버튼 클릭 시 우편번호 찾기 팝업
+  postalLookupButton.addEventListener("click", function () {
+    new daum.Postcode({
+      oncomplete: function (data) {
+        zipcodeInput.value = data.zonecode; // 우편번호 입력
+        shippingAddressInput.value = data.address; // 주소 입력
+        document.getElementById("detailedAddress").focus(); // 상세주소 입력으로 포커스 이동
+      },
+    }).open();
+  });
 });
 
 /* ######################################  주문정보 끝 */
-
