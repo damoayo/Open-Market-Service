@@ -9,7 +9,7 @@ body {
   width: 100%;
   height: 100%;
   background-color: rgba(255, 255, 255, 1);
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
 }
 a {
   text-decoration: none;
@@ -61,7 +61,7 @@ img {
   align-items: center;
 }
 
-.wrap-container input[type='search'] {
+.wrap-container input[type="search"] {
   width: 400px;
   height: 46px;
   padding: 8px;
@@ -130,7 +130,7 @@ footer {
   color: #333;
   opacity: 0.8;
   text-decoration: none;
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 17.53px;
@@ -141,7 +141,7 @@ footer {
   opacity: 1;
 }
 .footer-nav a span {
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 14px;
   font-weight: 700;
   line-height: 17.53px;
@@ -152,7 +152,7 @@ footer {
   width: 321px;
   height: 96px;
   margin-bottom: 63px;
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 24px;
@@ -162,7 +162,7 @@ footer {
 
 .footer-info span {
   font-size: 16px;
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 14px;
   font-weight: 700;
   line-height: 24px;
@@ -210,7 +210,7 @@ footer {
   text-align: center;
 }
 .dropdown-box::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -12px;
   left: 50%;
@@ -243,7 +243,7 @@ section {
   justify-content: center;
 }
 section > div > h2 {
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 36px;
   font-weight: 700;
   line-height: 44px;
@@ -268,7 +268,7 @@ main > section > container {
   align-items: center;
 }
 #cart-container p {
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 22.54px;
@@ -298,7 +298,7 @@ main > section > container {
   align-items: center;
 }
 .cart-amounts p {
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 24px;
   font-weight: 700;
   line-height: 30.05px;
@@ -307,7 +307,7 @@ main > section > container {
 }
 .cart-amounts span {
   margin-right: 10px;
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 18px;
   font-weight: 500;
   line-height: 22.54px;
@@ -322,7 +322,7 @@ section > container > button {
   margin: 40px 0 160px 0;
   width: 220px;
   height: 68px;
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 24px;
   font-weight: 700;
   line-height: 30.05px;
@@ -354,17 +354,17 @@ section > container > button {
   align-items: center;
   margin-left: 30px;
 }
-.custom input[type='checkbox'] {
+.custom input[type="checkbox"] {
   display: none;
 }
-.custom input[type='checkbox'] + label em {
+.custom input[type="checkbox"] + label em {
   background: url(../assets/check-box.png) no-repeat center;
   display: inline-block;
   width: 20px;
   height: 20px;
   position: relative;
 }
-.custom input[id='check1']:checked + label em {
+.custom input[id="check1"]:checked + label em {
   background: url(../assets/check-box-Fill.png) no-repeat center;
   width: 20px;
   height: 20px;
@@ -406,7 +406,7 @@ section > container > button {
 .modal-content p {
   width: 100%;
   height: 20px;
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 20.03px;
@@ -425,7 +425,7 @@ section > container > button {
   border: 1px;
   background: rgba(33, 191, 72, 1);
   border: 1px solid rgba(196, 196, 196, 1);
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 16px;
   font-weight: 500;
   line-height: 20.03px;
@@ -454,7 +454,7 @@ section > container > button {
 .cart-item-store {
   width: 100%;
   height: 18px;
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 17.53px;
@@ -467,27 +467,18 @@ section > container > button {
   font-size: 18px;
   width: 418px;
   height: 22px;
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-weight: 400;
   line-height: 22px;
   text-align: left;
   color: rgba(0, 0, 0, 1);
   margin-top: 10px;
 }
-.cart-item-quantity {
-  width: 57px;
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
-  margin-top: 10px;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 17.53px;
-  text-align: left;
-  color: rgba(118, 118, 118, 1);
-}
+
 .delivery {
   width: 118px;
   height: 18px;
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 17.53px;
@@ -499,22 +490,10 @@ section > container > button {
   display: flex;
   align-items: center;
 }
-.cart-item-quantity input[type='number'] {
+.cart-item-quantity input[type="number"] {
   width: 50px;
   text-align: center;
   margin: 0 10px;
-}
-.cart-footer-total {
-  font-size: 20px;
-  font-weight: bold;
-}
-.order-button {
-  background-color: #28a745;
-  color: white;
-  padding: 10px 20px;
-  text-decoration: none;
-  font-size: 18px;
-  border-radius: 5px;
 }
 
 /* ################  박스 오른쪽 가격증가 */
@@ -562,7 +541,7 @@ section > container > button {
   /* margin-right: 100px; */
 }
 .sum-price {
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   color: rgba(0, 0, 0, 1);
   width: 100%;
   height: 22px;
@@ -574,7 +553,7 @@ section > container > button {
 .buy-now {
   background-color: rgba(33, 191, 72, 1);
   color: white;
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   text-align: center;
   border: none;
   width: 130px;
@@ -590,7 +569,7 @@ section > container > button {
 /* ################  카트에 제품이 없을때 메시지 */
 
 #productMessage {
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 24px;
   font-weight: 700;
   line-height: 30.05px;
@@ -602,7 +581,7 @@ section > container > button {
   align-items: center;
 }
 #productMessage p {
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 18px;
   font-weight: 700;
   line-height: 22.54px;
@@ -615,7 +594,7 @@ section > container > button {
 #productMessage a {
   width: 220px;
   height: 18px;
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 17.53px;
@@ -633,7 +612,7 @@ section > container > button {
   padding: 20px;
   background-color: #fff;
 }
-.delivery-info{
+.delivery-info {
   width: 1280px;
   height: 100%;
 }
@@ -651,7 +630,7 @@ section > container > button {
   margin-bottom: 40px;
 }
 .section h2 {
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 18px;
   font-weight: 500;
   line-height: 22.54px;
@@ -661,18 +640,37 @@ section > container > button {
 }
 
 .form-group {
-width: 1280px;
+  width: 1280px;
   display: flex;
   justify-content: start;
   align-items: center;
 }
-
+#ordererName,
+.phone-group {
+  width: 334px;
+}
+input[type="text"] {
+  left: 170px;
+}
+#emailValidate{
+  margin-left: 214px;
+  color: magenta;
+}
+#detailedAddress{
+  width: 800px;
+  margin-left: 210px;
+  box-sizing: border-box;
+}
+#shippingMessage{
+  width: 800px;
+  box-sizing: border-box;
+}
 .form-group label {
-  width: 50px;
+  width: 70px;
   display: block;
   margin-right: 140px;
   color: #333;
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 20.03px;
@@ -681,12 +679,12 @@ width: 1280px;
 
 .form-group input {
   width: 334px;
-height: 40px;
-border: 1px solid rgba(196, 196, 196, 1);
+  height: 40px;
+  border: 1px solid rgba(196, 196, 196, 1);
   padding: 10px;
   border-radius: 5px;
-  /* width: calc(100% - 22px); */
   box-sizing: border-box;
+  margin: 8px 0;
 }
 
 .phone-group {
@@ -804,7 +802,7 @@ border: 1px solid rgba(196, 196, 196, 1);
   display: none;
 }
 .freeDelivery {
-  font-family: 'Spoqa Han Sans Neo', sans-serif;
+  font-family: "Spoqa Han Sans Neo", sans-serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 22.54px;
