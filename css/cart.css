@@ -93,6 +93,10 @@ main {
   flex-direction: column;
   align-items: center;
 }
+#sellerButtonWrap{}
+#sellerButton{
+  border: none;
+}
 
 /* 푸터 스타일 */
 footer {
@@ -185,7 +189,7 @@ footer {
   height: 32px;
 }
 
-/* ############    */
+/* ############  드롭다운박스  */
 #loginBtn {
   background: none;
   border: none;

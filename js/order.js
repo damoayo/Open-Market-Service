@@ -22,7 +22,7 @@ function checkCartOneOrder() {
   });
 }
 
-function displayCartOneOrder (product, quantity, totalPrice) {
+function displayCartOneOrder(product, quantity, totalPrice) {
   const cartList = document.getElementById("cartList");
   const itemElement = document.createElement("div");
   itemElement.innerHTML = `
@@ -53,10 +53,18 @@ function displayCartOneOrder (product, quantity, totalPrice) {
   cartList.appendChild(itemElement);
 
   // 총 금액을 표시할 요소
-  const totalProductAmountElement = document.getElementById("totalProductAmount");
+  const totalProductAmountElement =
+    document.getElementById("totalProductAmount");
 
   // 총 상품 금액 및 결제 예정 금액을 계산하여 업데이트
   totalProductAmountElement.innerText = `${totalPrice.toLocaleString()}원`;
+
+  // 각 상품의 합계 금액을 업데이트하는 함수
+  function updateTotalPrice(price, quantity, element) {
+    const totalPrice = price * quantity;
+    element.innerText = `${totalPrice.toLocaleString()}원`;
+  }
+  orderDetail(product.product_id, quantity, totalPrice);
 }
 
 /* ################ 카트 전체 주문  ################ */
@@ -432,7 +440,7 @@ function orderDetail(id, quantity, totalPrice) {
 
 /* ##############  icon 함수  ############### */
 
-// 로그인-클릭 icon 함수
+/* // 로그인-클릭 icon 함수
 function changeColor(element) {
   const text = document.getElementById(element.id);
   // const cartLink = document.getElementById('cartBtn');
@@ -556,7 +564,7 @@ function updateNavLogin() {
     // 로그인 페이지로 리디렉션 (예: login.html)
     window.location.href = "index.html";
   });
-}
+} */
 
 // 주문 분기처리 함수
 function orderBranchProcessing() {
@@ -586,16 +594,76 @@ function orderBranchProcessing() {
   }
 }
 
+// 로그인 상태 확인 및 네비게이션 업데이트
+function checkLoginStatus() {
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const loginType = localStorage.getItem("loginType"); // 사용자 타입 확인
 
+  const cartButton = document.getElementById("cartButton");
+  const sellerButton = document.getElementById("sellerButton");
+  const dropdownMenu = document.getElementById("dropdownMenu");
+  const loginDropdown = document.querySelector("#loginDropdown img");
+  const sellerButtonWrap = document.querySelector("#sellerButtonWrap img");
+  const cartButtonLi = document.querySelector("#cartButton img");
+
+  // 로그아웃 버튼
+  function navChange() {
+    loginDropdown.addEventListener("click", (event) => {
+      event.preventDefault(); // 기본 링크 동작을 막음
+      // loginDropdown.src = "../assets/my-page-on.png";
+      dropdownMenu.style.display =
+        dropdownMenu.style.display === "block" ? "none" : "block";
+    });
+    window.addEventListener("click", (event) => {
+      if (!event.target.closest("#loginBtn")) {
+        if (dropdownMenu.style.display === "block") {
+          dropdownMenu.style.display = "none";
+          loginDropdown.src = "../assets/my-page-on.png";
+        }
+      }
+    });
+    // 드롭다운 박스 클릭 시 이벤트 버블링 방지
+    // 내부 클릭 시에도 드롭다운 박스가 닫히지 않도록 정상동작 보장
+    dropdownMenu.addEventListener("click", (event) => {
+      event.stopPropagation(); // 클릭 이벤트가 window로 전파중지 이벤트
+    });
+
+    // 로그아웃 버튼 클릭 시 로그아웃 처리
+    logoutBtn.addEventListener("click", () => {
+      // 스토리지에서 토큰과 isLoggedIn 제거
+      sellerButton.style.display = "none";
+      localStorage.removeItem("token");
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("loginType");
+      localStorage.removeItem("cartItems");
+      // 로그인 페이지로 리디렉션 (예: login.html)
+      window.location.href = "index.html";
+    });
+  }
+
+  // 로그인 상태에 따라 네비게이션 업데이트
+  if (isLoggedIn === "true" && loginType === "SELLER") {
+    cartButton.style.display = "none"; // 장바구니 버튼 숨기기
+    loginDropdown.src = "../assets/my-page.png";
+    sellerButtonWrap.src = "../assets/MS-icon-button.png";
+
+    navChange();
+  } else if (isLoggedIn === "true" && loginType === "BUYER") {
+    sellerButton.style.display = "none";
+    cartButtonLi.src = "../assets/shopping-cart-on.png";
+    loginDropdown.src = "../assets/my-page.png";
+    navChange();
+    orderBranchProcessing(); //주문 분기처리 함수
+  } else {
+    sellerButtonWrap.style.display = "none";
+    cartButtonLi.src = "../assets/shopping-cart.png";
+    loginDropdown.src = "../assets/my-page-off.png";
+    window.location.href = "login.html";
+    return;
+  }
+}
 
 // 페이지 로드 시 로그인 상태 확인
 document.addEventListener("DOMContentLoaded", () => {
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
-  if (!(isLoggedIn === "true")) {
-    window.location.href = "login.html";
-    return;
-  } else {
-    updateNavLogin(); // 네비게이션 로그인
-    orderBranchProcessing(); //주문 분기처리 함수
-  }
+  checkLoginStatus();
 });

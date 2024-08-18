@@ -92,6 +92,14 @@ main {
   align-items: center;
 }
 
+#sellerButtonWrap{
+border: none;
+}
+#sellerButton{
+  border: none;
+  cursor: pointer;
+}
+
 /* 배너 스타일 */
 .banner {
   width: 1920px;
@@ -239,8 +247,6 @@ footer {
   cursor: pointer;
   font-size: 16px;
 }
-  /* color: green; */
-  /* color: green; */
 #loginDropdown{
   position: relative;
 }
@@ -248,7 +254,7 @@ footer {
   display: none;
   position: absolute;
   top: 65px;
-  right: -106px;
+  right: -105px;
   transform: translateX(-50%);
   width: 130px;
   background-color: white;
@@ -267,8 +273,8 @@ footer {
   border-width: 0 10px 10px 10px;
   border: 1px solid #ddd; 
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  border-style: solid;
-  border-color: transparent transparent white transparent;
+  /* border-style: solid; */
+  /* border-color: transparent transparent white transparent; */
 }
 .dropdown-box a {
   display: block;

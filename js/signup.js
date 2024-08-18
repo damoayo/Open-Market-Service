@@ -208,6 +208,7 @@ async function login(id, pw, pw2, cellphone, name) {
       // 로그인 성공 후 상태 저장 (예시로 로컬 스토리지 사용)
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("token", data.token); // 예시로 토큰 저장
+      localStorage.setItem("loginType", login_type); // 로그인 타입 저장
 
       // 로그인 성공 시 이전 페이지로 이동
       window.history.back();
