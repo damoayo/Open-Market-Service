@@ -2,10 +2,10 @@
 URL 파라미터로 주문형식을 분기처리
 1. 장바구니에서 단일 주문하기          cart_one_order : urlParams.size === 3
 2. 장바구니에서 전체 주문하기          cart_order : urlParams.size === 0
-3. 상세페이지에서 주문하기             direct_order : urlParams.size === 2
+3. 상세페이지에서 주문하기             cart_one_order : urlParams.size === 3
 */
 
-/* ################ 단일 카트 주문   ################ */
+/* ################ 단일 카트 & 상세 페이지 주문   ################ */
 
 function checkCartOneOrder() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -68,7 +68,6 @@ function displayCartOneOrder(product, quantity, totalPrice) {
 }
 
 /* ################ 카트 전체 주문  ################ */
-
 async function checkCartOrder() {
   try {
     const token = localStorage.getItem("token");
@@ -446,7 +445,7 @@ function orderBranchProcessing() {
   // case문으로 분기처리
   switch (urlParams.size) {
     case 3:
-      // 장바구니에서 단일 주문하기
+      // 장바구니에서 단일 주문하기 & 상세페이지에서 주문하기
       console.log("장바구니에서 단일 주문하기");
       checkCartOneOrder();
       break;
@@ -455,10 +454,10 @@ function orderBranchProcessing() {
       console.log("장바구니에서 전체 주문하기");
       checkCartOrder();
       break;
-    case 2:
+    /*     case 2:
       // 상세페이지에서 주문하기
       checkDirectOrder();
-      break;
+      break; */
     default:
       // URL 파라미터가 없는 경우
       console.log("잘못된 접근입니다.");
