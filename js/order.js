@@ -489,7 +489,7 @@ function checkLoginStatus() {
       if (!event.target.closest("#loginBtn")) {
         if (dropdownMenu.style.display === "block") {
           dropdownMenu.style.display = "none";
-          loginDropdown.src = "../assets/my_page_on.png";
+          loginDropdown.src = "../assets/my_page_on.svg";
         }
       }
     });
@@ -515,20 +515,20 @@ function checkLoginStatus() {
   // 로그인 상태에 따라 네비게이션 업데이트
   if (isLoggedIn === "true" && loginType === "SELLER") {
     cartButton.style.display = "none"; // 장바구니 버튼 숨기기
-    loginDropdown.src = "../assets/my_page.png";
-    sellerButtonWrap.src = "../assets/MS_icon_button.png";
+    loginDropdown.src = "../assets/my_page.svg";
+    sellerButtonWrap.src = "../assets/MS_icon_button.svg";
 
     navChange();
   } else if (isLoggedIn === "true" && loginType === "BUYER") {
     sellerButton.style.display = "none";
-    cartButtonLi.src = "../assets/shopping_cart_on.png";
-    loginDropdown.src = "../assets/my_page.png";
+    cartButtonLi.src = "../assets/shopping_cart_on.svg";
+    loginDropdown.src = "../assets/my_page.svg";
     navChange();
     orderBranchProcessing(); //주문 분기처리 함수
   } else {
     sellerButtonWrap.style.display = "none";
-    cartButtonLi.src = "../assets/shopping_cart.png";
-    loginDropdown.src = "../assets/my_page_off.png";
+    cartButtonLi.src = "../assets/shopping_cart.svg";
+    loginDropdown.src = "../assets/my_page_off.svg";
     window.location.href = "login.html";
     return;
   }
