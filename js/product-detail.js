@@ -161,7 +161,7 @@ function checkLoginStatus() {
   function navChange() {
     loginDropdown.addEventListener("click", (event) => {
       event.preventDefault(); // 기본 링크 동작을 막음
-      loginDropdown.src = "../assets/my-page-on.png";
+      loginDropdown.src = "../assets/my_page_on.png";
       dropdownMenu.style.display =
         dropdownMenu.style.display === "block" ? "none" : "block";
     });
@@ -169,7 +169,7 @@ function checkLoginStatus() {
       if (!event.target.closest("#loginBtn")) {
         if (dropdownMenu.style.display === "block") {
           dropdownMenu.style.display = "none";
-          loginDropdown.src = "../assets/my-page-on.png";
+          loginDropdown.src = "../assets/my_page_on.png";
         }
       }
     });
@@ -195,21 +195,21 @@ function checkLoginStatus() {
   // 로그인 상태에 따라 네비게이션 업데이트
   if (isLoggedIn === "true" && loginType === "SELLER") {
     cartButton.style.display = "none"; // 장바구니 버튼 숨기기
-    loginDropdown.src = "../assets/my-page.png";
-    sellerButtonWrap.src = "../assets/MS-icon-button.png";
+    loginDropdown.src = "../assets/my_page.png";
+    sellerButtonWrap.src = "../assets/MS_icon_button.png";
 
     navChange();
   } else if (isLoggedIn === "true" && loginType === "BUYER") {
     sellerButton.style.display = "none";
-    cartButtonLi.src = "../assets/shopping-cart.png";
-    loginDropdown.src = "../assets/my-page.png";
+    cartButtonLi.src = "../assets/shopping_cart.png";
+    loginDropdown.src = "../assets/my_page.png";
 
     navChange();
   } else {
     console.log("로그아웃 상태");
     sellerButtonWrap.style.display = "none";
-    cartButtonLi.src = "../assets/shopping-cart.png";
-    loginDropdown.src = "../assets/my-page-off.png";
+    cartButtonLi.src = "../assets/shopping_cart.png";
+    loginDropdown.src = "../assets/my_page_off.png";
   }
 }
 
@@ -217,4 +217,3 @@ function checkLoginStatus() {
 document.addEventListener("DOMContentLoaded", () => {
   checkLoginStatus();
 });
-
