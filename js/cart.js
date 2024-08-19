@@ -61,8 +61,8 @@ function checkLoginStatus() {
     fetchCart();
   } else {
     sellerButtonWrap.style.display = "none";
-    // cartButtonLi.src = "../assets/shopping_cart.png";
-    // loginDropdown.src = "../assets/my_page_off.png";
+    cartButtonLi.src = "../assets/shopping_cart.png";
+    loginDropdown.src = "../assets/my_page_off.png";
     window.location.href = "login.html";
     return;
   }

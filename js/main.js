@@ -59,10 +59,9 @@ function checkLoginStatus() {
 
     navChange();
   } else {
-    console.log("로그아웃 상태");
     sellerButtonWrap.style.display = "none";
-    cartButtonLi.src = "../assets/shopping_cart.png";
-    loginDropdown.src = "../assets/my_page_off.png";
+    // cartButtonLi.src = "../assets/shopping_cart.png";
+    // loginDropdown.src = "../assets/my_page_off.png";
   }
 }
 
