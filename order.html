@@ -15,7 +15,9 @@
         <h1 class="sr-only">오픈마켓 서비스</h1>
         <div class="wrap-container">
           <div class="wrap-logo">
-            <a href="./index.html" class="logo"><img src="./assets/Logo-hodu.png" alt="HODU 로고" /></a>
+            <a href="./index.html" class="logo"
+              ><img src="./assets/Logo-hodu.png" alt="HODU 로고"
+            /></a>
             <form>
               <input type="search" placeholder="상품을 검색해보세요" />
             </form>
@@ -24,18 +26,25 @@
             <ul>
               <li id="cartButton">
                 <a href="./cart.html" id="cartBtn"
-                  ><img src="./assets/shopping-cart.png" alt="장바구니" /> </a
-                >
+                  ><img src="./assets/shopping_cart.svg" alt="장바구니" />
+                </a>
               </li>
               <li id="loginDropdown">
-                <a href="./login.html" id="loginBtn"><img src="./assets/my-page-off.png" alt="로그인" /></a>
+                <a href="./login.html" id="loginBtn"
+                  ><img src="./assets/my_page_off.svg" alt="로그인"
+                /></a>
                 <div id="dropdownMenu" class="dropdown-box">
                   <a href="#mypage">마이페이지</a>
                   <a href="#logout" id="logoutBtn">로그아웃</a>
                 </div>
               </li>
               <li id="sellerButtonWrap">
-                <button id="sellerButton"><img src="./assets/MS-icon-button.png" alt="판매자 전용버튼"></button>
+                <button id="sellerButton">
+                  <img
+                    src="./assets/MS_icon_button.svg"
+                    alt="판매자 전용버튼"
+                  />
+                </button>
               </li>
             </ul>
           </nav>
@@ -144,7 +153,13 @@
                 <div class="form-group">
                   <label for="shippingAddress">배송주소*</label>
                   <div class="address-group">
-                    <input type="text" id="zipcode" placeholder="우편번호" required readonly />
+                    <input
+                      type="text"
+                      id="zipcode"
+                      placeholder="우편번호"
+                      required
+                      readonly
+                    />
                     <button type="button" id="postalLookup">
                       우편번호 조회
                     </button>
@@ -217,7 +232,7 @@
                     >주문 내용을 확인하였으며, 정보 제공 등에 동의합니다.</label
                   >
                 </div>
-                <button  id="orderButton" class="payment-button" disabled>
+                <button id="orderButton" class="payment-button" disabled>
                   결제하기
                 </button>
                 <div id="orderFailed"></div>

@@ -91,7 +91,7 @@ function loadProduct(product) {
   // "바로 구매" 버튼
   document.getElementById("buy-now").addEventListener("click", function () {
     // 결제 페이지로 이동
-    window.location.href = "/checkout";
+    window.location.href = "/cart.html";
   });
 
   // "장바구니" 버튼
@@ -99,7 +99,7 @@ function loadProduct(product) {
   addToCartButton.addEventListener("click", function () {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
     if (!(isLoggedIn === "true")) {
-      window.location.href = "/login";
+      window.location.href = "/login.html";
     } else {
       addToCart(currentQuantity);
       cartDropdown.style.display = "block"; // 드롭다운 표시
