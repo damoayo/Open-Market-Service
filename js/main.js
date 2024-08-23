@@ -87,7 +87,6 @@ async function productsList() {
     if (res.ok) {
       // 제품 목록을 화면에 표시 (예시)
       displayProducts(data.results);
-      console.log(data.results);
     } else {
       // 요청 실패 시
       console.error("제품 목록 요청 실패:", data);

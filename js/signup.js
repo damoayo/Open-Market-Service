@@ -211,7 +211,7 @@ async function login(id, pw, pw2, cellphone, name, login_type) {
       localStorage.setItem("loginType", login_type); // 로그인 타입 저장
 
       // 로그인 성공 시 이전 페이지로 이동
-      window.history.back();
+      window.location.href = "./index.html";
     } else {
       // console.error('로그인 실패:', data);
       document.getElementById("pwChkMessage").textContent =
