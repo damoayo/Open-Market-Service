@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const agreeChk = document.getElementById("agreeChk");
   agreeChk.checked = true;
   isAgreeChecked = agreeChk.checked;
-  // console.log('isAgreeChecked', isAgreeChecked);
 
   // 체크박스 상태 변경 시 변수 업데이트
   agreeChk.addEventListener("change", () => {
@@ -38,7 +37,7 @@ function openTab(tabName) {
     tabLeft.classList.add("active");
     tabRight.classList.remove("active");
     wrapForm[0].style.height = "586px";
-  } else if (tabName === "seller") {
+  } else if (!(tabName === "buyer")) {
     currentLoginType = "SELLER";
     addBusiness.style.display = "block";
     addStoreName.style.display = "block";
@@ -48,7 +47,6 @@ function openTab(tabName) {
   }
   const $tabLeft = document.querySelector(".tabLeft");
   const $tabRight = document.querySelector(".tabRight");
-  // const $sellerId = document.getElementById('sellerId');
 
   // 탭선택에 따른 칼라변경
   if (tabName === "buyer") {
@@ -183,7 +181,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 // ########################################################
 
 // 로그인 요청
-async function login(id, pw, pw2, cellphone, name) {
+async function login(id, pw, pw2, cellphone, name, login_type) {
   try {
     const res = await fetch("https://openmarket.weniv.co.kr/accounts/signup/", {
       method: "POST",
@@ -196,6 +194,8 @@ async function login(id, pw, pw2, cellphone, name) {
         password2: pw2,
         phone_number: cellphone,
         name: name,
+        company_registration_number: String,
+        store_name: String,
       }),
       credentials: "include", // CORS를 지원할 경우 쿠키 포함
     });
@@ -203,8 +203,8 @@ async function login(id, pw, pw2, cellphone, name) {
     // JSON 파싱 전에 content-type 확인
 
     const data = await res.json();
+    console.log(data);
     if (res.ok) {
-
       // 로그인 성공 후 상태 저장 (예시로 로컬 스토리지 사용)
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("token", data.token); // 예시로 토큰 저장
@@ -249,14 +249,34 @@ $loginForm.addEventListener("submit", function (event) {
   const $phone1 = document.getElementById("userTel1").value;
   const $phone2 = document.getElementById("userTel2").value;
   const $cellphone = `${$phonePrefix}${$phone1}${$phone2}`;
+  const $businessUserId = document.getElementById("businessUserId").value;
+  const $storName = document.getElementById("storeName").value;
 
   // 입력 값 검증 및 체크박스 확인
-  if (!$idInput || !$pwInput || !$repwInput || !$cellphone || !$userName) {
-    pwChkMessage.textContent = "모든 항목을 필수로 작성해야 합니다.";
-    return;
-  } else if (!isAgreeChecked) {
-    pwChkMessage.textContent = "약관에 동의해야 가입할 수 있습니다.";
-    return;
+  //switch문으로 변경
+  switch (currentLoginType) {
+    case "BUYER":
+      isFormValid =
+        !$idInput || !$pwInput || !$repwInput || !$cellphone || !$userName;
+      break;
+
+    case "SELLER":
+      const businessUserId = document
+        .getElementById("businessUserId")
+        .value.trim();
+      const storeName = document.getElementById("storeName").value.trim();
+      isFormValid =
+        !$idInput ||
+        !$pwInput ||
+        !$repwInput ||
+        !$cellphone ||
+        !$userName ||
+        !$businessUserId ||
+        !$storName;
+      break;
+
+    default:
+      isFormValid = false;
   }
 
   // 입력이 모두 있는지 확인
@@ -282,10 +302,104 @@ $loginForm.addEventListener("submit", function (event) {
 
   if (login_type === "SELLER") {
     const $businessUserId = document.getElementById("businessUserId");
-    const $storName = document.getElementById("storeName");
-    $storName.setAttribute("required", "required");
+    const $storName = document.getElementById("storName");
     $businessUserId.setAttribute("required", "required");
+    // $storName.setAttribute("required", "required");
   }
 
-  login(id, pw, pw2, cellphone, name);
+  login(id, pw, pw2, cellphone, name, login_type);
 });
+
+/* #######################  사업자등록번호 검증*/
+
+document
+  .getElementById("duplicate-check-button")
+  .addEventListener("click", async function () {
+    // 폼 데이터를 가져옴
+    const businessUserId = document.getElementById("businessUserId").value;
+
+    // 요청을 보낼 URL
+    const url =
+      "https://openmarket.weniv.co.kr/accounts/signup/valid/company_registration_number/";
+
+    // 요청할 데이터
+    const data = {
+      company_registration_number: businessUserId,
+    };
+
+    try {
+      // 비동기 요청 보내기
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      // 응답을 JSON으로 변환
+      const result = await response.json();
+
+      // 메시지 요소에 결과 표시
+      const messageElement = document.getElementById("idChkMessage");
+      if (result.Success) {
+        messageElement.textContent = result.Success;
+        messageElement.style.color = "#21bf48ff";
+      } else if (result.FAIL_Message) {
+        messageElement.textContent = result.FAIL_Message;
+        messageElement.style.color = "#eb5757ff";
+      }
+    } catch (error) {
+      // 에러가 발생할 경우
+      console.error("Error:", error);
+    }
+  });
+
+/* ###########################   상호 중복확인 */
+
+// 아이디 중복확인 버튼 클릭 시
+/* document
+  .getElementById("storeName")
+  .addEventListener("blur", async function () {
+    // 폼 데이터를 가져옴
+    const storeName = document.getElementById("storeName").value;
+
+    // 요청을 보낼 URL
+    const url =
+      "https://openmarket.weniv.co.kr/accounts/signup/valid/storeName/";
+
+    // 요청할 데이터
+    const data = {
+      storeName: storeName,
+    };
+
+    try {
+      // 비동기 요청 보내기
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      // 응답을 JSON으로 변환
+      console.log(result);
+      const result = await response.json();
+
+
+      // 메시지 요소에 결과 표시
+      const messageElement = document.getElementById("idChkMessage");
+      if (result.Success) {
+        messageElement.textContent = result.Success;
+        messageElement.style.color = "#21bf48ff";
+      } else if (result.FAIL_Message) {
+        messageElement.textContent = result.FAIL_Message;
+        messageElement.style.color = "#eb5757ff";
+      }
+    } catch (error) {
+      // 에러가 발생할 경우
+      console.error("Error:", error);
+    }
+  });
+ */

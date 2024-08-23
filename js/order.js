@@ -28,7 +28,7 @@ function displayCartOneOrder(product, quantity, totalPrice) {
   itemElement.innerHTML = `
     <div class="cart-item">
       <div class="cartFront">
-        <img src="${product.image}" alt="단독! 개발자 무료 담요" />
+        <img src="${product.image}" alt="" />
         <div class="cartItemInfo">
           <p class="cart-item-store">${product.store_name}</p>
           <p class="cart-item-title">${product.product_name}</p>
@@ -189,16 +189,13 @@ async function displayCartItems(cartItems, cartData) {
   // 총 금액을 표시할 요소
   const totalProductAmountElement =
     document.getElementById("totalProductAmount");
-  const finalAmountElement = document.getElementById("finalAmount");
 
   // 상품 정보와 장바구니 정보를 합쳐서 화면에 표시
   productDetails.forEach((product, index) => {
     if (product) {
       const item = filteredItems[index];
       const itemElement = document.createElement("div");
-      const localPrice = product.price.toLocaleString();
       const totalPrice = item.quantity * product.price;
-      const checkboxId = `check${index}`; // 고유한 체크박스 ID 생성
       // 초기 총 상품 금액 계산
       totalProductAmount += totalPrice;
       itemElement.innerHTML = `

@@ -1,3 +1,5 @@
+
+
 // 로그인 상태 확인 및 네비게이션 업데이트
 function checkLoginStatus() {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -68,9 +70,10 @@ function checkLoginStatus() {
 /* ################ 상품목록 ################ */
 
 // 상품목록 가져오기
+const productsSrc = "https://openmarket.weniv.co.kr/products/";
 async function productsList() {
   try {
-    const res = await fetch("https://openmarket.weniv.co.kr/products/", {
+    const res = await fetch(productsSrc, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -79,25 +82,17 @@ async function productsList() {
     });
 
     // JSON 파싱 전에 content-type 확인
-    if (res.headers.get("content-type")?.includes("application/json")) {
-      const data = await res.json();
-      if (res.ok) {
-        // 성공적으로 제품 목록을 받아온 경우
-        // console.log('제품 목록:', data);
 
-        // 제품 목록을 화면에 표시 (예시)
-        displayProducts(data.results);
-        console.log(data.results);
-      } else {
-        // 요청 실패 시
-        console.error("제품 목록 요청 실패:", data);
-        document.getElementById("productMessage").textContent =
-          "제품 목록을 불러오는데 실패했습니다. 다시 시도해주세요.";
-      }
+    const data = await res.json();
+    if (res.ok) {
+      // 제품 목록을 화면에 표시 (예시)
+      displayProducts(data.results);
+      console.log(data.results);
     } else {
-      console.error("서버 응답이 JSON 형식이 아님");
+      // 요청 실패 시
+      console.error("제품 목록 요청 실패:", data);
       document.getElementById("productMessage").textContent =
-        "서버 오류가 발생했습니다. 다시 시도해주세요.";
+        "제품 목록을 불러오는데 실패했습니다. 다시 시도해주세요.";
     }
   } catch (error) {
     console.error("제품 목록 요청 중 오류 발생:", error);
