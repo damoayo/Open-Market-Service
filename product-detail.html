@@ -5,29 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/reset.css" />
     <link rel="stylesheet" href="./css/product-detail.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>오픈마켓 서비스</title>
   </head>
-  <body>
+  <body class="bg-white flex flex-col items-center justify-center">
     <header>
-      <div class="header-container">
+      <div
+        class="header-container w-[1920px] h-full flex justify-center items-center px-2.5 py-5 bg-white"
+      >
         <h1 class="sr-only">오픈마켓 서비스</h1>
-        <div class="wrap-container">
-          <div class="wrap-logo">
+        <div
+          class="wrap-container w-[1280px] h-[90px] flex items-center justify-between bg-white"
+        >
+          <div class="wrap-logo flex items-start">
             <a href="./index.html" class="logo"
-              ><img src="./assets/Logo-hodu.png" alt="HODU 로고"
+              ><img
+                class="w-[124px] h-[38px] ml-0 items-center"
+                src="./assets/Logo-hodu.png"
+                alt="HODU 로고"
             /></a>
             <form>
-              <input type="search" placeholder="상품을 검색해보세요" />
+              <input
+                class="w-80 h-12 px-3 ml-[30px] rounded-full outline-none border-2 border-[#21bf48] bg-position-custom bg-no-repeat"
+                type="search"
+                placeholder="상품을 검색해보세요"
+              />
             </form>
           </div>
           <nav id="navList">
-            <ul>
-              <li id="cartButton">
+            <ul class="flex items-center space-x-4 list-none">
+              <li class="ml-5 items-center mr-[26px]" id="cartButton">
                 <a href="./cart.html" id="cartBtn"
                   ><img src="./assets/shopping_cart.svg" alt="장바구니" />
                 </a>
               </li>
-              <li id="loginDropdown">
+              <li class="ml-5 items-center mr-0" id="loginDropdown">
                 <a href="./login.html" id="loginBtn"
                   ><img src="./assets/my_page_off.svg" alt="로그인"
                 /></a>
@@ -36,7 +48,7 @@
                   <a href="#logout" id="logoutBtn">로그아웃</a>
                 </div>
               </li>
-              <li id="sellerButtonWrap">
+              <li class="ml-5" id="sellerButtonWrap">
                 <button id="sellerButton">
                   <img
                     src="./assets/MS_icon_button.svg"
@@ -49,82 +61,168 @@
         </div>
       </div>
     </header>
-    <main>
-      <div class="product-container">
-        <img id="product-image" src="" alt="상품 이미지" />
-        <div class="wrap">
+    <main class="flex flex-col items-center w-[1280px]">
+      <div
+        class="product-container flex justify-start mt-20 mb-[140px] rounded-xl max-w-[1280px]"
+      >
+        <img
+          class="w-[480px] h-[480px] object-contain"
+          id="product-image"
+          src=""
+          alt="상품 이미지"
+        />
+        <div
+          class="wrap ml-[50px] flex flex-col relative w-170 h-150 border-none"
+        >
           <span id="stock" class="sr-only"></span>
-          <div class="product-meta">
-            <p id="store-name">상점 이름</p>
-            <h1 id="product-name">상품 이름</h1>
+          <div class="product-meta w-inherit h-full">
+            <p
+              class="text-lg leading-[22.54px] mb-4 text-left text-[#767676]"
+              id="store-name"
+            >
+              상점 이름
+            </p>
+            <h1
+              class="text-black mb-5 text-[36px] leading-[45.07px] text-left"
+              id="product-name"
+            >
+              상품 이름
+            </h1>
             <div class="priceWon">
-              <p id="product-price">
+              <p
+                class="font-bold text-black text-[36px] flex items-end"
+                id="product-price"
+              >
                 <span id="price">17500</span>
                 <!-- 예시로 17500원 설정 -->
-                <span id="currency">원</span>
+                <span
+                  class="text-lg leading-[22.54px] text-left ml-0.5"
+                  id="currency"
+                  >원</span
+                >
               </p>
             </div>
-            <p id="deliver">택배배송 / 무료배송</p>
+            <p
+              class="w-[630px] text-left pb-5 border-b-2 border-[#c4c4c4] mt-[138px]"
+              id="deliver"
+            >
+              택배배송 / 무료배송
+            </p>
           </div>
-          <div class="quantity-selector">
-            <button id="minus">-</button>
-            <span id="quantity">1</span>
-            <button id="plus">+</button>
+          <div
+            class="quantity-selector flex justify-start items-center w-full h-[50px] rounded-[5px] box-border my-[30px]"
+          >
+            <button
+              class="w-[50px] h-[50px] flex justify-center items-center border border-[#C4C4C4] bg-white box-border text-[40px] font-light text-[#C4C4C4]"
+              id="minus"
+            >
+              -
+            </button>
+            <span
+              class="w-[50px] h-[50px] flex justify-center items-center border border-[#C4C4C4] bg-white box-border"
+              id="quantity"
+              >1</span
+            >
+            <button
+              class="w-[50px] h-[50px] flex justify-center items-center border border-[#C4C4C4] bg-white box-border text-[40px] font-light text-[#C4C4C4]"
+              id="plus"
+            >
+              +
+            </button>
           </div>
-          <div id="priceWrap">
+          <div
+            id="priceWrap"
+            class="flex justify-start items-center box-border"
+          >
             <span>총 상품 금액</span>
-            <p id="totalQuan">
+            <p id="totalQuan" class="ml-[289px]">
               <span>총수량</span>
-              <span id="total"></span>
+              <span
+                id="total"
+                class="font-spoqa text-lg font-bold text-[#21BF48]"
+              ></span>
               <span>개 | </span>
             </p>
-            <p id="sum-price">
-              <span id="sumPrice"></span>
-              <span id="sumCurrency">원</span>
+            <p id="sum-price" class="ml-3 flex items-center">
+              <span
+                id="sumPrice"
+                class="w-[136px] h-[45px] font-spoqa text-[36px] font-bold text-[#21BF48]"
+              ></span>
+              <span
+                id="sumCurrency"
+                class="font-spoqa text-lg font-normal ml-[-15px] text-[#21BF48]"
+              ></span>
             </p>
           </div>
-          <div class="buyButtons">
-            <button id="buy-now">바로 구매</button>
-            <button id="add-to-cart" class="modal_btn">장바구니</button>
+
+          <div class="buyButtons w-full h-full mt-8">
+            <button
+              id="buy-now"
+              class="bg-[#21BF48] text-white w-[416px] h-[60px] font-spoqa text-lg font-bold text-center"
+            >
+              바로 구매
+            </button>
+            <button
+              id="add-to-cart"
+              class="modal_btn w-[200px] h-[60px] rounded bg-[#767676] text-white font-spoqa text-lg font-bold text-center"
+            >
+              장바구니
+            </button>
           </div>
-          <div id="cartDropdown" class="cartDropdown-box">
+
+          <div
+            id="cartDropdown"
+            class="cartDropdown-box hidden absolute mt-4 p-4 bg-white border border-gray-200 shadow-lg rounded-lg text-center"
+          >
             <p>상품이 추가되었습니다!</p>
-            <div id="cartPopup">
-              <button onclick="location.href='./cart.html'">장바구니</button>
-              <button id="cartLogoutBtn">계속쇼핑</button>
+            <div id="cartPopup" class="flex justify-between mt-4 space-x-4">
+              <button
+                onclick="location.href='./cart.html'"
+                class="bg-gray-300 text-black font-bold text-lg px-4 py-2 rounded"
+              >
+                장바구니
+              </button>
+              <button
+                id="cartLogoutBtn"
+                class="bg-gray-300 text-black font-bold text-lg px-4 py-2 rounded"
+              >
+                계속쇼핑
+              </button>
             </div>
           </div>
+
           <!-- <div id="addToCartMessage"></div> -->
         </div>
       </div>
     </main>
 
     <!-- 푸터부분 -->
-    <footer>
-      <div class="footer-container">
-        <div class="footerWrap">
-          <nav class="footer-nav">
-            <a href="#">호두샵 소개</a> | <a href="#">이용약관</a> |
-            <a href="#"><span>개인정보처리방침</span></a> |
-            <a href="#">전자금융거래약관</a> | <a href="#">청소년보호정책</a> |
-            <a href="#">제휴문의</a>
+    <footer class="w-full h-[298px] bg-[#F2F2F2] flex justify-center items-center">
+      <div class="w-[1280px] h-[298px] p-[60px] flex flex-col justify-between">
+        <div class="h-[108px] flex justify-between border-b border-gray-300">
+          <nav class="flex-2 w-[632px] mt-[60px] text-gray-800 text-opacity-80">
+            <a href="#" class="hover:text-opacity-100">호두샵 소개</a> | 
+            <a href="#" class="hover:text-opacity-100">이용약관</a> | 
+            <a href="#" class="hover:text-opacity-100"><span class="font-bold">개인정보처리방침</span></a> | 
+            <a href="#" class="hover:text-opacity-100">전자금융거래약관</a> | 
+            <a href="#" class="hover:text-opacity-100">청소년보호정책</a> | 
+            <a href="#" class="hover:text-opacity-100">제휴문의</a>
           </nav>
-          <div class="footer-social">
-            <a href="#"
-              ><img src="./assets/icon-insta.svg" alt="인스타그램"
-            /></a>
-            <a href="#"><img src="./assets/icon-fb.svg" alt="페이스북" /></a>
-            <a href="#"><img src="./assets/icon-yt.svg" alt="유튜브" /></a>
+          <div class="flex justify-end w-[124px] h-[32px] mt-[54px]">
+            <a href="#"><img src="./assets/icon-insta.svg" alt="인스타그램" class="ml-[14px] w-[32px] h-[32px]" /></a>
+            <a href="#"><img src="./assets/icon-fb.svg" alt="페이스북" class="ml-[14px] w-[32px] h-[32px]" /></a>
+            <a href="#"><img src="./assets/icon-yt.svg" alt="유튜브" class="ml-[14px] w-[32px] h-[32px]" /></a>
           </div>
         </div>
-        <div class="footer-info">
-          <p><span>(주)HODU SHOP</span></p>
+        <div class="w-[321px] h-[96px] mb-[63px] text-[14px] leading-[24px] text-gray-600">
+          <p><span class="font-bold text-[16px]"> (주)HODU SHOP</span></p>
           <p>제주특별자치도 제주시 동광고 137 제주코딩베이스캠프</p>
           <p>사업자 번호: 000-0000-0000 | 통신판매업</p>
           <p>대표: 김호두</p>
         </div>
       </div>
     </footer>
-    <script src="./js/product-detail.js"></script>
+    
+    <script src="./src/product-detail.js"></script>
   </body>
 </html>
